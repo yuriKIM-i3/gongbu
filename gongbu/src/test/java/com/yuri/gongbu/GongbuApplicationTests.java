@@ -1,4 +1,4 @@
-package com.gongbu.gongbu;
+package com.yuri.gongbu;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

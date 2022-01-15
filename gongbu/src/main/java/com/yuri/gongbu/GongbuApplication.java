@@ -1,4 +1,4 @@
-package com.gongbu.gongbu;
+package com.yuri.gongbu;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

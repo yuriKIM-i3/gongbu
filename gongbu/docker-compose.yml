@@ -21,16 +21,16 @@ services:
       - db
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/gongbu
-      - SPRING_DATASOURCE_USERNAME=gongbu_admin
-      - SPRING_DATASOURCE_PASSWORD=1234
+      - SPRING_DATASOURCE_USERNAME=gongbu
+      - SPRING_DATASOURCE_PASSWORD=gongbu
 
   db:
     image: postgres:11.14
     container_name: db
     environment:
       - POSTGRES_DB=gongbu
-      - POSTGRES_USER=gongbu_admin
-      - POSTGRES_PASSWORD=1234
+      - POSTGRES_USER=gongbu
+      - POSTGRES_PASSWORD=gongbu
       - POSTGRES_INITDB_ARGS=--encoding=UTF-8
     ports:
       - 5432:5432
