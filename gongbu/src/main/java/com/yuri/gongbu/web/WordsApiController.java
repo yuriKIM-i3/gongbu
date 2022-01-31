@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.Random;
 
@@ -24,8 +26,10 @@ public class WordsApiController{
     private final WordsRepository wordsRepository;
 
     @GetMapping("/list")
-    public String showAll(Model model) {
-        model.addAttribute("words", wordsService.findByDeleteFlgZero());
+    public String showAll(@RequestParam(defaultValue = "1") Integer page, Model model) {
+        PageRequest pageable = PageRequest.of(page - 1, GlobalVariable.WORD_PAGE_SIZE);
+        model.addAttribute("result", wordsService.findByDeleteFlgZero(pageable));
+
         return "list";
     }
 
@@ -48,7 +52,7 @@ public class WordsApiController{
         String wordMeaning = "사기";
 
         Random rand = new Random();
-        for(int i = 0; i < rand.nextInt(10); i++) {
+        for(int i = 0; i < 30; i++) {
             wordsRepository.save(Words.builder()
                             .userId(userId)
                             .wordName(wordName + i)
@@ -72,7 +76,7 @@ public class WordsApiController{
         String wordMeaning = "많은 관심 부탁드립니다 의 줄임말";
 
         Random rand = new Random();
-        for(int i = 0; i < rand.nextInt(10); i++) {
+        for(int i = 0; i < 26; i++) {
             wordsRepository.save(Words.builder()
                             .userId(userId)
                             .wordName(wordName + i)

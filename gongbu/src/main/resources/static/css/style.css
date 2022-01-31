@@ -44,3 +44,7 @@ img{
 .mypage_content{
     height: 550px;
 }
+
+.a-disabled{
+    pointer-events:none;
+}
