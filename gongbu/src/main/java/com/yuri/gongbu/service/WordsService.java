@@ -46,15 +46,4 @@ public class WordsService {
 
         return resultMap;
     }
-
-    public List<WordsListResponseDto> getWordsSortedBy(String sortedBy) {
-        Sort sort = sortBy(sortedBy);
-        return wordsRepository.findByDeleteFlg(GlobalVariable.FALSE, sort).stream()
-                .map(WordsListResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
-    private Sort sortBy(String sortedBy) {
-        return Sort.by(Sort.Direction.DESC, sortedBy);
-    }
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import java.util.Random;
 
@@ -34,10 +35,13 @@ public class WordsApiController{
     }
 
     @GetMapping("/list/sort")
-    public String showWordsSortedBy(@RequestParam("sort") String sortedBy, Model model) {
+    public String showWordsSortedBy(@RequestParam(defaultValue = "1") Integer page, @RequestParam("sort") String sortedBy, Model model) {
         if (GlobalVariable.sorts.contains(sortedBy)) {
-            model.addAttribute("words", wordsService.getWordsSortedBy(sortedBy));
-            return "list";
+            PageRequest pageable = PageRequest.of(page - 1, GlobalVariable.WORD_PAGE_SIZE, Sort.by(Sort.Direction.DESC, sortedBy));
+            model.addAttribute("result", wordsService.findByDeleteFlgZero(pageable));
+            model.addAttribute("sortedBy", sortedBy);
+
+            return "list_sorted";
         } else {
             return "error";
         }

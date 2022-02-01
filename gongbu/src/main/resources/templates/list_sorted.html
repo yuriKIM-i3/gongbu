@@ -58,26 +58,26 @@
                   <a th:if="${result.isFirst}" class="page-link a-disabled" href="#" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                   </a>
-                  <a th:unless="${result.isFirst}" class="page-link" th:href="@{/list(page=${result.getNumber})}" aria-label="Previous">
+                  <a th:unless="${result.isFirst}" class="page-link" th:href="@{/list/sort(sort = ${sortedBy}, page=${result.getNumber})}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>                                
                 <li class="page-item">
-                  <a th:if="${result.hasPrevious}" class="page-link" th:href="@{/list(page=${result.getNumber})}">[[${result.getNumber}]]</a>
+                  <a th:if="${result.hasPrevious}" class="page-link" th:href="@{/list/sort(sort = ${sortedBy}, page=${result.getNumber})}">[[${result.getNumber}]]</a>
                 </li>
                 <li class="page-item active" aria-current="page"><span class="page-link">[[${result.getNumber + 1}]]</span></li>
                 <li class="page-item">
-                  <a th:if="${result.hasNext}" class="page-link" th:href="@{/list(page=${result.getNumber + 2})}">[[${result.getNumber + 2 }]]</a>
+                  <a th:if="${result.hasNext}" class="page-link" th:href="@{/list/sort(sort = ${sortedBy}, page=${result.getNumber + 2})}">[[${result.getNumber + 2 }]]</a>
                 </li>
                 <li class="page-item" th:if="${result.totalPages > 2 && result.isFirst}">
                   <!-- トタルページが3つ以上、かつ現在のページが1である場合、ページ番号を表示するように -->
-                  <a class="page-link" th:href="@{/list(page=${result.getNumber + 3})}">[[${result.getNumber + 3 }]]</a>
+                  <a class="page-link" th:href="@{/list/sort(sort = ${sortedBy}, page=${result.getNumber + 3})}">[[${result.getNumber + 3 }]]</a>
                 </li>
                 <li class="page-item">
                   <a th:if="${result.isLast}" class="page-link a-disabled" href="#" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                   </a>
-                  <a th:unless="${result.isLast}" class="page-link" th:href="@{/list(page=${result.getNumber + 2})}" aria-label="Next">
+                  <a th:unless="${result.isLast}" class="page-link" th:href="@{/list/sort(sort = ${sortedBy}, page=${result.getNumber + 2})}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                   </a>
                 </li>
