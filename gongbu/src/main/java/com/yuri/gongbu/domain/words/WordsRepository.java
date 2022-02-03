@@ -9,6 +9,5 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface WordsRepository extends JpaRepository<Words, Integer> {
-    List<Words> findByDeleteFlg(Integer deleteFlg);
     Page<Words> findByDeleteFlg(Integer deleteFlg, Pageable pageable);
 }

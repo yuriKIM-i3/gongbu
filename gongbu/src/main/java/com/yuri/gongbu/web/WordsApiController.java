@@ -68,7 +68,6 @@ public class WordsApiController{
                             .deleteFlg(0)
                             .build());
         }
-
         return "insert";
     }
 
@@ -92,7 +91,6 @@ public class WordsApiController{
                             .deleteFlg(0)
                             .build());
         }
-
         return "insert";
     }
 }

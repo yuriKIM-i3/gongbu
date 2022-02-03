@@ -23,17 +23,9 @@ public class WordsService {
 
     private final WordsRepository wordsRepository;
 
-    @Transactional(readOnly = true)
-    public List<WordsListResponseDto> findAll() {
-        return wordsRepository.findAll().stream()
-                .map(WordsListResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
     public Map<String, Object> findByDeleteFlgZero(Pageable pageable) {
         Page<Words> result = wordsRepository.findByDeleteFlg(GlobalVariable.FALSE, pageable);
         Map<String, Object> resultMap = new HashMap<>();
-        
         List<WordsListResponseDto> words = result.stream().map(WordsListResponseDto::new).collect(Collectors.toList());
 
         resultMap.put("words", words);
