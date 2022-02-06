@@ -30,6 +30,7 @@ public class WordsApiController{
     public String showAll(@RequestParam(defaultValue = "1") Integer page, Model model) {
         PageRequest pageable = PageRequest.of(page - 1, GlobalVariable.WORD_PAGE_SIZE);
         model.addAttribute("result", wordsService.findByDeleteFlgZero(pageable));
+        model.addAttribute("isSorted", GlobalVariable.FALSE);
 
         return "list";
     }
@@ -40,8 +41,9 @@ public class WordsApiController{
             PageRequest pageable = PageRequest.of(page - 1, GlobalVariable.WORD_PAGE_SIZE, Sort.by(Sort.Direction.DESC, sortedBy));
             model.addAttribute("result", wordsService.findByDeleteFlgZero(pageable));
             model.addAttribute("sortedBy", sortedBy);
+            model.addAttribute("isSorted", GlobalVariable.TRUE);
 
-            return "list_sorted";
+            return "list";
         } else {
             return "error";
         }
