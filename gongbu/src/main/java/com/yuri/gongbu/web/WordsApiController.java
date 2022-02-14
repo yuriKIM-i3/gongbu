@@ -18,6 +18,7 @@ import com.yuri.gongbu.service.WordsService;
 import com.yuri.gongbu.domain.words.WordsRepository;
 import com.yuri.gongbu.domain.words.Words;
 import com.yuri.gongbu.global.GlobalVariable;
+import com.yuri.gongbu.web.dto.WordsListRequestDto;
 
 @RequiredArgsConstructor
 @Controller
@@ -48,6 +49,15 @@ public class WordsApiController{
             return "error";
         }
         
+    }
+
+    @GetMapping("/list/search")
+    public String searchWord(@RequestParam(defaultValue = "1") Integer page, WordsListRequestDto requestDto, Model model){
+        PageRequest pageable = PageRequest.of(page - 1, GlobalVariable.WORD_PAGE_SIZE);
+        model.addAttribute("result", wordsService.findByDeleteFlgAndWordNameLike(requestDto.getKeyword(), pageable));
+        model.addAttribute("requestDto", requestDto);
+
+        return "list_search";
     }
 
     @GetMapping("/dummy")
