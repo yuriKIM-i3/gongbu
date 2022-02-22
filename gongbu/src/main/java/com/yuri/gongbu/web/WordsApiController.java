@@ -105,9 +105,4 @@ public class WordsApiController{
         }
         return "insert";
     }
-
-    @GetMapping("/")
-    public String home() {
-        return "index";
-    }
 }
