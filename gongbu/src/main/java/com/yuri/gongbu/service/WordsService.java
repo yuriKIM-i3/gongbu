@@ -38,4 +38,20 @@ public class WordsService {
 
         return resultMap;
     }
+
+    public Map<String, Object> findByDeleteFlgAndWordNameLike(String keyWord, Pageable pageable) {
+        Page<Words> result = wordsRepository.findByDeleteFlgAndWordNameContaining(GlobalVariable.FALSE, keyWord, pageable);
+        Map<String, Object> resultMap = new HashMap<>();
+        List<WordsListResponseDto> words = result.stream().map(WordsListResponseDto::new).collect(Collectors.toList());
+
+        resultMap.put("words", words);
+        resultMap.put("isFirst", result.isFirst());
+        resultMap.put("isLast", result.isLast());
+        resultMap.put("hasNext", result.hasNext());
+        resultMap.put("hasPrevious", result.hasPrevious());
+        resultMap.put("getNumber", result.getNumber());
+        resultMap.put("totalPages", result.getTotalPages());
+
+        return resultMap;
+    }
 }

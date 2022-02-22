@@ -5,24 +5,21 @@
       <div class="page-header">
         <h4>ことば一覧</h4>
       </div>
-      <div class="row justify-content-between mt-3">
-        <th:block th:if="${isSorted}">
-          <th:block th:replace="fragments/pagination_sorted :: pagination_sorted"></th:block>
-        </th:block>
-        <th:block th:unless="${isSorted}">
-          <th:block th:replace="fragments/pagination :: pagination"></th:block>
-        </th:block>
+      <div class="row justify-content-start mt-3">
+        <th:block th:replace="fragments/pagination_search_result :: pagination_search_result"></th:block>
+        <!--
         <div class="col-2 text-end">
           <div class="btn-group">
             <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-bs-toggle="dropdown" aria-expanded="false">
               並び順
             </button>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" th:href="@{/list/sort(sort=wordHits)}">訪問数</a></li>
-              <li><a class="dropdown-item" th:href="@{/list/sort(sort=wordLike)}">いいね</a></li>
+              <li><a class="dropdown-item" th:href="@{/list/search(keyword = ${requestDto.keyword}, sortedBy=wordHits)}">訪問数</a></li>
+              <li><a class="dropdown-item" th:href="@{/list/search(keyword = ${requestDto.keyword}, sortedBy=wordLike)}">いいね</a></li>
             </ul>
           </div>
         </div>
+        -->
       </div>
       <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
         <div class="col" th:each="word : ${result.words}">
