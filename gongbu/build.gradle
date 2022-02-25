@@ -2,7 +2,6 @@ plugins {
 	id 'org.springframework.boot' version '2.6.2'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
-	id "org.flywaydb.flyway" version "8.5.1"
 }
 
 group = 'com.yuri'
@@ -23,7 +22,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.4'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:2.6.2'
 	implementation 'org.springframework.boot:spring-boot-starter-web:2.6.2'
-	implementation 'org.flywaydb:flyway-core'
+	implementation 'org.flywaydb:flyway-core:8.5.1'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -36,13 +35,4 @@ test {
 	useJUnit()
 
     maxHeapSize = '1G'
-}
-
-flyway {
-	driver = 'org.postgresql.Driver'
-    url = 'jdbc:postgresql://192.168.33.17:5432/gongbu'
-	user = 'gongbu'
-    password = 'gongbu'
-    locations = ['classpath:db/migration']
-	baselineOnMigrate = true
 }
