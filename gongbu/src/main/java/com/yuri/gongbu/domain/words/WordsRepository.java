@@ -10,4 +10,5 @@ import java.util.List;
 
 public interface WordsRepository extends JpaRepository<Words, Integer> {
     Page<Words> findByDeleteFlg(Integer deleteFlg, Pageable pageable);
+    Page<Words> findByDeleteFlgAndWordNameContaining(Integer deleteFlg, String wordName, Pageable pageable);
 }
