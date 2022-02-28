@@ -12,5 +12,4 @@ gradle bootRun(to seeding data try this > gradle bootRun --args='seedingData')
 --postgres
 docker exec -it db bash
 psql -d gongbu -U gongbu
-
 ```
