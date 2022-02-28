@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 import com.yuri.gongbu.domain.words.WordsRepository;
 import com.yuri.gongbu.domain.user.UserRepository;
 import com.yuri.gongbu.global.GlobalVariable;
@@ -20,7 +22,8 @@ public class DataSeed implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-        if(args[0].equals("seedingData")){
+        String arg = (args.length > 0) ? args[0] : null;
+        if(!Objects.isNull(arg) && arg.equals("seedingData")){
             seedWordsTable();
             seedUserTable();
         }
