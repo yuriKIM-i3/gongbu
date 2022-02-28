@@ -23,6 +23,19 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/gongbu
       - SPRING_DATASOURCE_USERNAME=gongbu
       - SPRING_DATASOURCE_PASSWORD=gongbu
+      - SPRING_PROFILES_ACTIVE=dev
+      - DB_HOST=db
+      - FLYWAY_URL=jdbc:postgresql://db:5432/gongbu
+      - FLYWAY_USER=gongbu
+      - FLYWAY_PASSWORD=gongbu
+      - FLYWAY_SCHEMAS=gongbu
+      - FLYWAY_LOCATIONS=filesystem:./src/main/resources/db/migration
+    # entrypoint: |
+    #   bash -e -c "
+    #   gradle build
+    #   flyway migrate
+    #   /bin/bash
+    #   " 
   db:
     image: postgres:11.14
     container_name: db
