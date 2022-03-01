@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import java.util.HashMap;
 
 import com.yuri.gongbu.web.dto.WordsListResponseDto;
+import com.yuri.gongbu.web.dto.WordAddRequestDto;
 import com.yuri.gongbu.domain.words.WordsRepository;
 import com.yuri.gongbu.global.GlobalVariable;
 import com.yuri.gongbu.domain.words.Words;
@@ -53,5 +54,11 @@ public class WordsService {
         resultMap.put("totalPages", result.getTotalPages());
 
         return resultMap;
+    }
+
+    @Transactional
+    public void addWord(WordAddRequestDto wordAddRequestDto) {
+        
+        wordsRepository.save(wordAddRequestDto.toEntity());
     }
 }

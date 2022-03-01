@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="~{layout/layout}">
+  <th:block layout:fragment="content">
+    <div class="content rounded">
+      <div class="page-header">
+        <h4>ことば登録</h4>
+      </div>
+      <form th:action="@{/word/add}" th:object="${wordAddRequestDto}" method="post">
+        <div class="py-5">
+          <div class="row mt-3 justify-content-center">
+            <label class="col-sm-2 col-form-label">ことば<span class="text-muted font-size-S">(必須)</span></label>
+            <div class="col-sm-5">
+              <input type="text" class="form-control" th:field="*{wordName}">
+            </div>
+          </div>
+          <div class="row mt-3 justify-content-center">
+            <label class="col-sm-2 col-form-label">発音<span class="text-muted font-size-S">(必須)</span></label>
+            <div class="col-sm-5">
+              <input type="text" class="form-control" th:field="*{wordPronunciation}">
+            </div>
+          </div>
+          <div class="row mt-3 justify-content-center">
+            <label class="col-sm-2 col-form-label">意味<span class="text-muted font-size-S">(必須)</span></label>
+            <div class="col-sm-5">
+              <input type="text" class="form-control" th:field="*{wordMeaning}">
+            </div>
+          </div>
+          <div class="row mt-3 justify-content-center">
+            <label class="col-sm-2 col-form-label">例文</label>
+            <div class="col-sm-5">
+              <textarea class="form-control" rows="2" th:field="*{wordExample}"></textarea>
+            </div>
+          </div>
+          <div class="row mt-3 justify-content-center">
+            <div class="col-3">
+              <button type="submit" class="btn btn-success">登録</button>              
+              <button type="button" class="btn btn-danger">取り消し</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </th:block>  
+</html>

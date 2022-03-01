@@ -1,19 +1,19 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
   <th:block th:fragment="header">
     <div class="title">
-        <div class="row justify-content-between">
-          <div class="col">
-            <img th:src="@{/image/gongbu.jpg}">
-          </div>
-          <div th:if="${loginedUser eq null}" class="col-md-3 text-end align-self-center">
-            <a class="btn btn-outline-success me-2" th:href="@{/loginPage}" role="button">ログイン</a>
-            <button type="button" class="btn btn-success">新規登録</button>
-          </div>
-          <div th:unless="${loginedUser eq null}" class="col-md-3 text-end align-self-center">
-            <a class="btn btn-outline-success me-2" th:href="@{/logout}" role="button">ログアウト</a>
-            <button type="button" class="btn btn-success">マイページ</button>
-          </div>
+      <div class="row justify-content-between">
+        <div class="col">
+          <img th:src="@{/image/gongbu.jpg}">
         </div>
+        <div th:if="${loginedUser eq null}" class="col-md-3 text-end align-self-center">
+          <a class="btn btn-outline-success me-2" th:href="@{/loginPage}" role="button">ログイン</a>
+          <button type="button" class="btn btn-success">新規登録</button>
+        </div>
+        <div th:unless="${loginedUser eq null}" class="col-md-3 text-end align-self-center">
+          <a class="btn btn-outline-success me-2" th:href="@{/logout}" role="button">ログアウト</a>
+          <button type="button" class="btn btn-success">マイページ</button>
+        </div>
+      </div>
     </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-success bg-opacity-25 rounded">
         <div class="container-fluid">
@@ -23,7 +23,7 @@
                 <a class="nav-link active" aria-current="page" th:href="@{/list}">ことば一覧</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">ことば登録</a>
+                <a class="nav-link active" aria-current="page" th:href="@{/word/add}">ことば登録</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">About</a>

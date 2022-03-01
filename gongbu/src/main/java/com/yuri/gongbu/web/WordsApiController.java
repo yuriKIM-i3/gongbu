@@ -19,6 +19,9 @@ import com.yuri.gongbu.domain.words.WordsRepository;
 import com.yuri.gongbu.domain.words.Words;
 import com.yuri.gongbu.global.GlobalVariable;
 import com.yuri.gongbu.web.dto.WordsListRequestDto;
+import com.yuri.gongbu.web.dto.WordAddRequestDto;
+import com.yuri.gongbu.config.auth.dto.SessionUser;
+import com.yuri.gongbu.config.auth.LoginUser;
 
 @RequiredArgsConstructor
 @Controller
@@ -60,49 +63,16 @@ public class WordsApiController{
         return "list_search";
     }
 
-    @GetMapping("/dummy")
-    public String addDummy() {
-        int userId = 1;
-        String wordName = "mbti";
-        String wordPronunciation = "엠비티아이";
-        String wordMeaning = "사기";
-
-        Random rand = new Random();
-        for(int i = 0; i < 30; i++) {
-            wordsRepository.save(Words.builder()
-                            .userId(userId)
-                            .wordName(wordName + i)
-                            .wordPronunciation(wordPronunciation)    
-                            .wordMeaning(wordMeaning)         
-                            .wordExample("엠비티아이 검사 했어?")
-                            .wordHits(i)
-                            .wordLike(i)
-                            .deleteFlg(0)
-                            .build());
-        }
-        return "insert";
+    @GetMapping("/word/add")
+    public String addWord(Model model, WordAddRequestDto wordAddRequestDto) {
+        model.addAttribute("wordAddRequestDto", wordAddRequestDto);
+        return "/word/add";
     }
 
-    @GetMapping("/dummy2")
-    public String addDummy2() {
-        int userId = 1;
-        String wordName = "많관부";
-        String wordPronunciation = "많관부";
-        String wordMeaning = "많은 관심 부탁드립니다 의 줄임말";
-
-        Random rand = new Random();
-        for(int i = 0; i < 26; i++) {
-            wordsRepository.save(Words.builder()
-                            .userId(userId)
-                            .wordName(wordName + i)
-                            .wordPronunciation(wordPronunciation)    
-                            .wordMeaning(wordMeaning)         
-                            .wordExample("gongbu 많관부 입니다 ^^")
-                            .wordHits(i)
-                            .wordLike(i)
-                            .deleteFlg(0)
-                            .build());
-        }
-        return "insert";
+    @PostMapping("/word/add")
+    public String addWord(WordAddRequestDto wordAddRequestDto, @LoginUser SessionUser user) {
+        wordAddRequestDto.setUserId(user.getUserId());
+        wordsService.addWord(wordAddRequestDto);
+        return "redirect:/list";
     }
 }
