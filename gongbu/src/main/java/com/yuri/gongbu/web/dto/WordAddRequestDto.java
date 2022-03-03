@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 import com.yuri.gongbu.domain.words.Words;
 import com.yuri.gongbu.global.GlobalVariable;
 
@@ -12,10 +15,22 @@ import com.yuri.gongbu.global.GlobalVariable;
 @Getter
 @Setter
 public class WordAddRequestDto {
+
     private Integer userId;
+
+    @NotBlank
+	@Size(max=50)
     private String wordName;
+
+    @NotBlank
+	@Size(max=100)
     private String wordPronunciation;
+
+    @NotBlank
+	@Size(max=255)
     private String wordMeaning;
+
+	@Size(max=500)
     private String wordExample;
     
     // @Builder

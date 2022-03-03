@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 public class LoginApiController{
 
     @GetMapping("/")
-    public String home(Model model) {
+    public String home() {
         return "index";
     }
 

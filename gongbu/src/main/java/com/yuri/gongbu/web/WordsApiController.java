@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Random;
 
@@ -51,7 +53,6 @@ public class WordsApiController{
         } else {
             return "error";
         }
-        
     }
 
     @GetMapping("/list/search")
@@ -64,13 +65,22 @@ public class WordsApiController{
     }
 
     @GetMapping("/word/add")
-    public String addWord(Model model, WordAddRequestDto wordAddRequestDto) {
+    public String addWord(Model model, WordAddRequestDto wordAddRequestDto, @LoginUser SessionUser user) {
+        //ログインしたユーザーで登録画面にアクセスするとエラー画面に移動
+        if(user == null) {
+            model.addAttribute("errorMessege", GlobalVariable.INVALID_ACCESS);
+            return "error";
+        }
         model.addAttribute("wordAddRequestDto", wordAddRequestDto);
         return "/word/add";
     }
 
     @PostMapping("/word/add")
-    public String addWord(WordAddRequestDto wordAddRequestDto, @LoginUser SessionUser user) {
+    public String addWord(@Validated WordAddRequestDto wordAddRequestDto, BindingResult bindingResult, @LoginUser SessionUser user) {
+        if (bindingResult.hasErrors()) {
+            return "/word/add";
+        }
+
         wordAddRequestDto.setUserId(user.getUserId());
         wordsService.addWord(wordAddRequestDto);
         return "redirect:/list";
