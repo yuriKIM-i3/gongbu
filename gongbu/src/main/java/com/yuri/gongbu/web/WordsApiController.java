@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Random;
 
@@ -84,5 +85,11 @@ public class WordsApiController{
         wordAddRequestDto.setUserId(user.getUserId());
         wordsService.addWord(wordAddRequestDto);
         return "redirect:/list";
+    }
+
+    @GetMapping("/word/{wordId}")
+    public String readWord(@PathVariable Integer wordId, Model model) {
+        model.addAttribute("word", wordsService.findByWordId(wordId));
+        return "/word/read";
     }
 }

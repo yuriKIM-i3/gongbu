@@ -11,12 +11,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.HashMap;
+import java.util.Optional;
+
+import java.lang.IllegalArgumentException;
 
 import com.yuri.gongbu.web.dto.WordsListResponseDto;
 import com.yuri.gongbu.web.dto.WordAddRequestDto;
 import com.yuri.gongbu.domain.words.WordsRepository;
 import com.yuri.gongbu.global.GlobalVariable;
 import com.yuri.gongbu.domain.words.Words;
+import com.yuri.gongbu.web.dto.WordResponseDto;
 
 @RequiredArgsConstructor
 @Service
@@ -60,5 +64,12 @@ public class WordsService {
     public void addWord(WordAddRequestDto wordAddRequestDto) {
         
         wordsRepository.save(wordAddRequestDto.toEntity());
+    }
+    
+    public WordResponseDto findByWordId(Integer wordId) {
+        Words word = wordsRepository.getById(wordId);
+        // .orElseThrow(() -> new IllegalArgumentException("該当することばがありません。"));
+
+        return new WordResponseDto(word);
     }
 }
