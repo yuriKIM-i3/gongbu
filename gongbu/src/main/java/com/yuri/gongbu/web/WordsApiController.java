@@ -25,6 +25,7 @@ import com.yuri.gongbu.web.dto.WordsListRequestDto;
 import com.yuri.gongbu.web.dto.WordAddRequestDto;
 import com.yuri.gongbu.config.auth.dto.SessionUser;
 import com.yuri.gongbu.config.auth.LoginUser;
+import com.yuri.gongbu.web.dto.WordEditRequestDto;
 
 @RequiredArgsConstructor
 @Controller
@@ -83,13 +84,48 @@ public class WordsApiController{
         }
 
         wordAddRequestDto.setUserId(user.getUserId());
-        wordsService.addWord(wordAddRequestDto);
+        wordsService.add(wordAddRequestDto);
         return "redirect:/list";
     }
 
     @GetMapping("/word/{wordId}")
     public String readWord(@PathVariable Integer wordId, Model model) {
         model.addAttribute("word", wordsService.findByWordId(wordId));
+
         return "/word/read";
+    }
+
+    @GetMapping("/word/edit/{wordId}")
+    public String editWord(@PathVariable Integer wordId, Model model, @LoginUser SessionUser user) {
+        if(user == null) {
+            model.addAttribute("errorMessege", GlobalVariable.INVALID_ACCESS);
+            return "error";
+        }
+
+        model.addAttribute("wordEditRequestDto", wordsService.findByWordId(wordId));
+        
+        return "/word/edit";
+    }
+
+    @PostMapping("/word/edit")
+    public String editWord(@Validated WordEditRequestDto wordEditRequestDto, BindingResult bindingResult, @LoginUser SessionUser user) {
+        if (bindingResult.hasErrors()) {
+            return "/word/edit";
+        }
+        
+        wordsService.edit(wordEditRequestDto);
+        
+        return "redirect:/list";
+    }
+
+    @GetMapping("/word/delete/{wordId}")
+    public String deleteWord(@PathVariable Integer wordId) {
+        wordsService.delete(wordId);
+        
+        return "redirect:/list";
+    }
+
+    private void countWordHit() {
+        
     }
 }

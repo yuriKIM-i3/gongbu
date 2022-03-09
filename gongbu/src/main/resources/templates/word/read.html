@@ -42,8 +42,21 @@
               </svg>
             </button>
             <th:block th:if="${user.userId == word.userId}">
-              <button type="button" class="btn btn-success">更新</button>              
-              <button type="button" class="btn btn-danger">削除</button>
+              <a class="btn btn-success" th:href="@{'/word/edit/' + ${word.wordId}}" role="button">更新</a>
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">削除</button>
+              <!-- Modal -->
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-body">ことばを削除します。よろしいですか？</div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">いいえ</button>
+                      <a class="btn btn-danger" th:href="@{'/word/delete/' + ${word.wordId}}" role="button">はい</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </th:block>
           </div>
         </div>

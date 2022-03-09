@@ -16,7 +16,8 @@ import com.yuri.gongbu.global.GlobalVariable;
 @Setter
 public class WordResponseDto {
 
-    private Integer userId;
+    private Integer wordId;
+    private Integer userId;    
     private String wordName;
     private String wordPronunciation;
     private String wordMeaning;
@@ -25,6 +26,7 @@ public class WordResponseDto {
     private Integer wordLike;
     
     public WordResponseDto(Words word) {
+        wordId = word.getWordId();
         userId = word.getUserId();
         wordName = word.getWordName();
         wordPronunciation = word.getWordPronunciation();

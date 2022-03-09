@@ -1,6 +1,5 @@
 package com.yuri.gongbu.web.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -32,16 +31,6 @@ public class WordAddRequestDto {
 
 	@Size(max=500)
     private String wordExample;
-    
-    // @Builder
-    // public WordAddRequestDto(Integer userId, String wordName, String wordPronunciation, String wordMeaning, String wordExample) {
-    //     this.userId = userId;
-    //     this.wordName = wordName;
-    //     this.wordPronunciation = wordPronunciation;
-    //     this.wordMeaning = wordMeaning;
-    //     this.wordExample = wordExample;
-    // }
-
     
     public Words toEntity() {
         return Words.builder()

@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import java.sql.Timestamp;
 
 import com.yuri.gongbu.domain.BaseTimeEntity;
+import com.yuri.gongbu.global.GlobalVariable;
 
 @Getter
 @NoArgsConstructor
@@ -58,5 +59,16 @@ public class Words extends BaseTimeEntity{
         this.wordHits = wordHits;
         this.wordLike = wordLike;
         this.deleteFlg = deleteFlg;
+    }
+
+    public void update(String wordName, String wordPronunciation, String wordMeaning, String wordExample) {
+        this.wordName = wordName;
+        this.wordPronunciation = wordPronunciation;
+        this.wordMeaning = wordMeaning;
+        this.wordExample = wordExample;
+    }
+
+    public void delete() {
+        this.deleteFlg = GlobalVariable.TRUE;
     }
 }

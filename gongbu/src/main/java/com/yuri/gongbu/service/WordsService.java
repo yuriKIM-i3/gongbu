@@ -21,6 +21,7 @@ import com.yuri.gongbu.domain.words.WordsRepository;
 import com.yuri.gongbu.global.GlobalVariable;
 import com.yuri.gongbu.domain.words.Words;
 import com.yuri.gongbu.web.dto.WordResponseDto;
+import com.yuri.gongbu.web.dto.WordEditRequestDto;
 
 @RequiredArgsConstructor
 @Service
@@ -61,14 +62,25 @@ public class WordsService {
     }
 
     @Transactional
-    public void addWord(WordAddRequestDto wordAddRequestDto) {
+    public void add(WordAddRequestDto wordAddRequestDto) {
         
         wordsRepository.save(wordAddRequestDto.toEntity());
     }
+
+    @Transactional
+    public void edit(WordEditRequestDto requestDto) {
+        Words word = wordsRepository.findByWordId(requestDto.getWordId()).orElseThrow(() -> new IllegalArgumentException("該当することばがありません。"));
+        word.update(requestDto.getWordName(), requestDto.getWordPronunciation(), requestDto.getWordMeaning(), requestDto.getWordExample());
+    }
+
+    @Transactional
+    public void delete(Integer wordId) {
+        Words word = wordsRepository.findByWordId(wordId).orElseThrow(() -> new IllegalArgumentException("該当することばがありません。"));
+        word.delete();
+    }
     
     public WordResponseDto findByWordId(Integer wordId) {
-        Words word = wordsRepository.getById(wordId);
-        // .orElseThrow(() -> new IllegalArgumentException("該当することばがありません。"));
+        Words word = wordsRepository.findByWordIdAndDeleteFlg(wordId, GlobalVariable.FALSE).orElseThrow(() -> new IllegalArgumentException("該当することばがありません。"));
 
         return new WordResponseDto(word);
     }
