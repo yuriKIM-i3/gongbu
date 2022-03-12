@@ -16,6 +16,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Random;
+import java.util.Objects;
+import java.util.List;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Cookie;
 
 import com.yuri.gongbu.service.WordsService;
 import com.yuri.gongbu.domain.words.WordsRepository;
@@ -89,7 +97,9 @@ public class WordsApiController{
     }
 
     @GetMapping("/word/{wordId}")
-    public String readWord(@PathVariable Integer wordId, Model model) {
+    public String readWord(@PathVariable Integer wordId, Model model, HttpServletRequest httpServletRequest, HttpServletResponse response) {
+        
+        countUpWordHit(wordId, httpServletRequest, response);
         model.addAttribute("word", wordsService.findByWordId(wordId));
 
         return "/word/read";
@@ -125,7 +135,35 @@ public class WordsApiController{
         return "redirect:/list";
     }
 
-    private void countWordHit() {
-        
+    private void countUpWordHit(Integer wordId, HttpServletRequest request, HttpServletResponse response) {
+
+        String cookieValue = Integer.toString(wordId);
+        Cookie[] cookies = request.getCookies();
+        Cookie oldCookie = null;
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("wordId")) {
+                    oldCookie = cookie;
+                }
+            }
+        }
+
+        if (oldCookie != null) {
+            if (!oldCookie.getValue().contains("[" + cookieValue + "]")) {
+                wordsService.countUpWordHit(wordId);
+
+                oldCookie.setValue(oldCookie.getValue() + "_[" + cookieValue + "]");
+                oldCookie.setPath("/");
+                oldCookie.setMaxAge(GlobalVariable.COOKIE_MAX_AGE);
+                response.addCookie(oldCookie);
+            }
+        } else {
+            wordsService.countUpWordHit(wordId);
+
+            Cookie newCookie = new Cookie("wordId", "[" + cookieValue + "]");
+            newCookie.setPath("/");
+            newCookie.setMaxAge(GlobalVariable.COOKIE_MAX_AGE);
+            response.addCookie(newCookie);
+        }
     }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface WordsRepository extends JpaRepository<Words, Integer> {
-    Page<Words> findByDeleteFlg(Integer deleteFlg, Pageable pageable);
+    Page<Words> findByDeleteFlgOrderByWordIdDesc(Integer deleteFlg, Pageable pageable);
     Page<Words> findByDeleteFlgAndWordNameContaining(Integer deleteFlg, String wordName, Pageable pageable);
     Optional<Words> findByWordIdAndDeleteFlg(Integer wordId, Integer deleteFlg);
     Optional<Words> findByWordId(Integer wordId);

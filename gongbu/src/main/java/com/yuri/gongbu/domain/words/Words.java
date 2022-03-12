@@ -71,4 +71,8 @@ public class Words extends BaseTimeEntity{
     public void delete() {
         this.deleteFlg = GlobalVariable.TRUE;
     }
+
+    public void countUpHits() {
+        this.wordHits += 1;
+    }
 }

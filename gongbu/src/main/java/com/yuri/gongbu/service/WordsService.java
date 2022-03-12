@@ -30,7 +30,7 @@ public class WordsService {
     private final WordsRepository wordsRepository;
 
     public Map<String, Object> findByDeleteFlgZero(Pageable pageable) {
-        Page<Words> result = wordsRepository.findByDeleteFlg(GlobalVariable.FALSE, pageable);
+        Page<Words> result = wordsRepository.findByDeleteFlgOrderByWordIdDesc(GlobalVariable.FALSE, pageable);
         Map<String, Object> resultMap = new HashMap<>();
         List<WordsListResponseDto> words = result.stream().map(WordsListResponseDto::new).collect(Collectors.toList());
 
@@ -63,7 +63,6 @@ public class WordsService {
 
     @Transactional
     public void add(WordAddRequestDto wordAddRequestDto) {
-        
         wordsRepository.save(wordAddRequestDto.toEntity());
     }
 
@@ -81,7 +80,12 @@ public class WordsService {
     
     public WordResponseDto findByWordId(Integer wordId) {
         Words word = wordsRepository.findByWordIdAndDeleteFlg(wordId, GlobalVariable.FALSE).orElseThrow(() -> new IllegalArgumentException("該当することばがありません。"));
-
         return new WordResponseDto(word);
+    }
+
+    @Transactional
+    public void countUpWordHit(Integer wordId) {
+        Words word = wordsRepository.findByWordIdAndDeleteFlg(wordId, GlobalVariable.FALSE).orElseThrow(() -> new IllegalArgumentException("該当することばがありません。"));
+        word.countUpHits();
     }
 }
