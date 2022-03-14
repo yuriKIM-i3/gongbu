@@ -11,17 +11,18 @@ import java.lang.Object;
 
 import com.yuri.gongbu.config.auth.dto.SessionUser;
 
-public class LoginCheckInterceptor implements HandlerInterceptor {
+public class SettingUserInfoInterceptor implements HandlerInterceptor {    
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,  ModelAndView modelAndView) throws Exception {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
-        //ログインしたユーザーが存在するなら、ユーザー情報をviewに渡す
+        // ログインしたユーザーが存在するなら、ユーザー情報をviewに渡す
         HttpSession session = request.getSession(false);
+
         if (!Objects.isNull(session)) {
             SessionUser user = (SessionUser) session.getAttribute("user");
             modelAndView.addObject("user", user);
-        }        
+        }          
     }
 
 }

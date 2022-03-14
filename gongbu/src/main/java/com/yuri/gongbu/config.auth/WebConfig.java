@@ -7,8 +7,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 
 import java.util.List;
+import java.util.Arrays;
 
-import com.yuri.gongbu.filter.LoginCheckInterceptor;
+import com.yuri.gongbu.filter.SettingUserInfoInterceptor;
+import com.yuri.gongbu.filter.UserCheckInterceptor;
 
 @RequiredArgsConstructor
 @Configuration
@@ -16,6 +18,9 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final LoginUserArgumentResolver loginUserArgumentResolver;
 
+    public List resources
+            = Arrays.asList("/css/**", "/image/**", "/js/**", "/*.html");
+    
     /**
     LoginUserArgumentResolverがspringで認識できるよう、WebMvcConfigurerへ追加
     */
@@ -25,13 +30,19 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     /**
-    LoginCheckInterceptorのインターセプト登録
+    インターセプト登録
      */
-    @Override
+     @Override
  	public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginCheckInterceptor()) 
+        registry.addInterceptor(new SettingUserInfoInterceptor()) 
  				.order(1) 
  				.addPathPatterns("/**") 
- 				.excludePathPatterns("/css/**", "/image/**", "/*.html", "/error"); 
+ 				.excludePathPatterns(resources)
+                .excludePathPatterns("/error");
+
+        registry.addInterceptor(new UserCheckInterceptor()) 
+ 				.order(2) 
+ 				.addPathPatterns("/word/add", "/word/edit/**", "/word/delete/**", "/word/like/**") 
+                .excludePathPatterns("/", "/loginPage", "/word/list", "/word/detail/**", "/error"); 
     }
 }

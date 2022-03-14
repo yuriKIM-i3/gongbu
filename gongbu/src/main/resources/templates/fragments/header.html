@@ -20,7 +20,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" th:href="@{/list}">ことば一覧</a>
+                <a class="nav-link active" aria-current="page" th:href="@{/word/list}">ことば一覧</a>
               </li>
               <li class="nav-item" th:if="${user ne null}">
                 <a class="nav-link active" aria-current="page" th:href="@{/word/add}">ことば登録</a>
@@ -29,7 +29,7 @@
                 <a class="nav-link active" aria-current="page" href="#">About</a>
               </li>
             </ul>
-            <form class="d-flex" th:action="@{/list/search}">
+            <form class="d-flex" th:action="@{/word/list/search}">
               <input class="form-control me-2" type="search"  aria-label="Search" name="keyword">              
               <button class="btn btn-success" type="submit">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">

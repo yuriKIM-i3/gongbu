@@ -75,4 +75,8 @@ public class Words extends BaseTimeEntity{
     public void countUpHits() {
         this.wordHits += 1;
     }
+
+    public void countUpLike() {
+        this.wordLike += 1;
+    }
 }

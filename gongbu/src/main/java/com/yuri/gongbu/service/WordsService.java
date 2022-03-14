@@ -88,4 +88,10 @@ public class WordsService {
         Words word = wordsRepository.findByWordIdAndDeleteFlg(wordId, GlobalVariable.FALSE).orElseThrow(() -> new IllegalArgumentException("該当することばがありません。"));
         word.countUpHits();
     }
+
+    @Transactional
+    public void countUpWordLike(Integer wordId) {
+        Words word = wordsRepository.findByWordIdAndDeleteFlg(wordId, GlobalVariable.FALSE).orElseThrow(() -> new IllegalArgumentException("該当することばがありません。"));
+        word.countUpLike();
+    }
 }

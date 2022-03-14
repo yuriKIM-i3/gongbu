@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Random;
 import java.util.Objects;
@@ -42,16 +43,16 @@ public class WordsApiController{
     private final WordsService wordsService;
     private final WordsRepository wordsRepository;
 
-    @GetMapping("/list")
+    @GetMapping("/word/list")
     public String showAll(@RequestParam(defaultValue = "1") Integer page, Model model) {
         PageRequest pageable = PageRequest.of(page - 1, GlobalVariable.WORD_PAGE_SIZE);
         model.addAttribute("result", wordsService.findByDeleteFlgZero(pageable));
         model.addAttribute("isSorted", GlobalVariable.FALSE);
 
-        return "list";
+        return "/word/list";
     }
 
-    @GetMapping("/list/sort")
+    @GetMapping("/word/list/sort")
     public String showWordsSortedBy(@RequestParam(defaultValue = "1") Integer page, @RequestParam("sort") String sortedBy, Model model) {
         if (GlobalVariable.sorts.contains(sortedBy)) {
             PageRequest pageable = PageRequest.of(page - 1, GlobalVariable.WORD_PAGE_SIZE, Sort.by(Sort.Direction.DESC, sortedBy));
@@ -59,28 +60,24 @@ public class WordsApiController{
             model.addAttribute("sortedBy", sortedBy);
             model.addAttribute("isSorted", GlobalVariable.TRUE);
 
-            return "list";
+            return "/word/list";
         } else {
             return "error";
         }
     }
 
-    @GetMapping("/list/search")
+    @GetMapping("/word/list/search")
     public String searchWord(@RequestParam(defaultValue = "1") Integer page, WordsListRequestDto requestDto, Model model){
         PageRequest pageable = PageRequest.of(page - 1, GlobalVariable.WORD_PAGE_SIZE);
         model.addAttribute("result", wordsService.findByDeleteFlgAndWordNameLike(requestDto.getKeyword(), pageable));
         model.addAttribute("requestDto", requestDto);
 
-        return "list_search";
+        return "/word/list_search";
     }
 
     @GetMapping("/word/add")
-    public String addWord(Model model, WordAddRequestDto wordAddRequestDto, @LoginUser SessionUser user) {
-        //ログインしたユーザーで登録画面にアクセスするとエラー画面に移動
-        if(user == null) {
-            model.addAttribute("errorMessege", GlobalVariable.INVALID_ACCESS);
-            return "error";
-        }
+    public String addWord(Model model, WordAddRequestDto wordAddRequestDto) {
+        
         model.addAttribute("wordAddRequestDto", wordAddRequestDto);
         return "/word/add";
     }
@@ -93,10 +90,10 @@ public class WordsApiController{
 
         wordAddRequestDto.setUserId(user.getUserId());
         wordsService.add(wordAddRequestDto);
-        return "redirect:/list";
+        return "redirect:/word/list";
     }
 
-    @GetMapping("/word/{wordId}")
+    @GetMapping("/word/detail/{wordId}")
     public String readWord(@PathVariable Integer wordId, Model model, HttpServletRequest httpServletRequest, HttpServletResponse response) {
         
         countUpWordHit(wordId, httpServletRequest, response);
@@ -106,11 +103,7 @@ public class WordsApiController{
     }
 
     @GetMapping("/word/edit/{wordId}")
-    public String editWord(@PathVariable Integer wordId, Model model, @LoginUser SessionUser user) {
-        if(user == null) {
-            model.addAttribute("errorMessege", GlobalVariable.INVALID_ACCESS);
-            return "error";
-        }
+    public String editWord(@PathVariable Integer wordId, Model model) {
 
         model.addAttribute("wordEditRequestDto", wordsService.findByWordId(wordId));
         
@@ -125,14 +118,23 @@ public class WordsApiController{
         
         wordsService.edit(wordEditRequestDto);
         
-        return "redirect:/list";
+        return "redirect:/word/list";
     }
 
     @GetMapping("/word/delete/{wordId}")
     public String deleteWord(@PathVariable Integer wordId) {
         wordsService.delete(wordId);
         
-        return "redirect:/list";
+        return "redirect:/word/list";
+    }
+
+    @GetMapping("/word/like/{wordId}")
+    public String countUpLike(@PathVariable Integer wordId, Model model) {
+
+        wordsService.countUpWordLike(wordId);
+        model.addAttribute("word", wordsService.findByWordId(wordId));
+
+        return "redirect:/word/detail/" + wordId;
     }
 
     private void countUpWordHit(Integer wordId, HttpServletRequest request, HttpServletResponse response) {
