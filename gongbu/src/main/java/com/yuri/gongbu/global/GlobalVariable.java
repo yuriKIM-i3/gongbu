@@ -11,4 +11,8 @@ public class GlobalVariable {
         new ArrayList<String>() {{ add("wordHits"); add("wordLike"); }};
 
     public static Integer WORD_PAGE_SIZE = 6;
+
+    public static String INVALID_ACCESS = "不正なアクセスです";   
+
+    public static Integer COOKIE_MAX_AGE = 60 * 60 * 24;
 }

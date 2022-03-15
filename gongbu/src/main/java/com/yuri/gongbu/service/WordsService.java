@@ -11,11 +11,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.HashMap;
+import java.util.Optional;
+
+import java.lang.IllegalArgumentException;
 
 import com.yuri.gongbu.web.dto.WordsListResponseDto;
+import com.yuri.gongbu.web.dto.WordAddRequestDto;
 import com.yuri.gongbu.domain.words.WordsRepository;
 import com.yuri.gongbu.global.GlobalVariable;
 import com.yuri.gongbu.domain.words.Words;
+import com.yuri.gongbu.web.dto.WordResponseDto;
+import com.yuri.gongbu.web.dto.WordEditRequestDto;
 
 @RequiredArgsConstructor
 @Service
@@ -24,7 +30,7 @@ public class WordsService {
     private final WordsRepository wordsRepository;
 
     public Map<String, Object> findByDeleteFlgZero(Pageable pageable) {
-        Page<Words> result = wordsRepository.findByDeleteFlg(GlobalVariable.FALSE, pageable);
+        Page<Words> result = wordsRepository.findByDeleteFlgOrderByWordIdDesc(GlobalVariable.FALSE, pageable);
         Map<String, Object> resultMap = new HashMap<>();
         List<WordsListResponseDto> words = result.stream().map(WordsListResponseDto::new).collect(Collectors.toList());
 
@@ -53,5 +59,39 @@ public class WordsService {
         resultMap.put("totalPages", result.getTotalPages());
 
         return resultMap;
+    }
+
+    @Transactional
+    public void add(WordAddRequestDto wordAddRequestDto) {
+        wordsRepository.save(wordAddRequestDto.toEntity());
+    }
+
+    @Transactional
+    public void edit(WordEditRequestDto requestDto) {
+        Words word = wordsRepository.findByWordId(requestDto.getWordId()).orElseThrow(() -> new IllegalArgumentException("該当することばがありません。"));
+        word.update(requestDto.getWordName(), requestDto.getWordPronunciation(), requestDto.getWordMeaning(), requestDto.getWordExample());
+    }
+
+    @Transactional
+    public void delete(Integer wordId) {
+        Words word = wordsRepository.findByWordId(wordId).orElseThrow(() -> new IllegalArgumentException("該当することばがありません。"));
+        word.delete();
+    }
+    
+    public WordResponseDto findByWordId(Integer wordId) {
+        Words word = wordsRepository.findByWordIdAndDeleteFlg(wordId, GlobalVariable.FALSE).orElseThrow(() -> new IllegalArgumentException("該当することばがありません。"));
+        return new WordResponseDto(word);
+    }
+
+    @Transactional
+    public void countUpWordHit(Integer wordId) {
+        Words word = wordsRepository.findByWordIdAndDeleteFlg(wordId, GlobalVariable.FALSE).orElseThrow(() -> new IllegalArgumentException("該当することばがありません。"));
+        word.countUpHits();
+    }
+
+    @Transactional
+    public void countUpWordLike(Integer wordId) {
+        Words word = wordsRepository.findByWordIdAndDeleteFlg(wordId, GlobalVariable.FALSE).orElseThrow(() -> new IllegalArgumentException("該当することばがありません。"));
+        word.countUpLike();
     }
 }

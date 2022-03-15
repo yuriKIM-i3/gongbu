@@ -11,14 +11,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Random;
+import java.util.Objects;
+import java.util.List;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Cookie;
 
 import com.yuri.gongbu.service.WordsService;
 import com.yuri.gongbu.domain.words.WordsRepository;
 import com.yuri.gongbu.domain.words.Words;
 import com.yuri.gongbu.global.GlobalVariable;
 import com.yuri.gongbu.web.dto.WordsListRequestDto;
+import com.yuri.gongbu.web.dto.WordAddRequestDto;
+import com.yuri.gongbu.config.auth.dto.SessionUser;
+import com.yuri.gongbu.config.auth.LoginUser;
+import com.yuri.gongbu.web.dto.WordEditRequestDto;
+import com.yuri.gongbu.web.dto.WordResponseDto;
 
 @RequiredArgsConstructor
 @Controller
@@ -27,16 +44,16 @@ public class WordsApiController{
     private final WordsService wordsService;
     private final WordsRepository wordsRepository;
 
-    @GetMapping("/list")
+    @GetMapping("/word/list")
     public String showAll(@RequestParam(defaultValue = "1") Integer page, Model model) {
         PageRequest pageable = PageRequest.of(page - 1, GlobalVariable.WORD_PAGE_SIZE);
         model.addAttribute("result", wordsService.findByDeleteFlgZero(pageable));
         model.addAttribute("isSorted", GlobalVariable.FALSE);
 
-        return "list";
+        return "/word/list";
     }
 
-    @GetMapping("/list/sort")
+    @GetMapping("/word/list/sort")
     public String showWordsSortedBy(@RequestParam(defaultValue = "1") Integer page, @RequestParam("sort") String sortedBy, Model model) {
         if (GlobalVariable.sorts.contains(sortedBy)) {
             PageRequest pageable = PageRequest.of(page - 1, GlobalVariable.WORD_PAGE_SIZE, Sort.by(Sort.Direction.DESC, sortedBy));
@@ -44,65 +61,131 @@ public class WordsApiController{
             model.addAttribute("sortedBy", sortedBy);
             model.addAttribute("isSorted", GlobalVariable.TRUE);
 
-            return "list";
+            return "/word/list";
         } else {
             return "error";
         }
-        
     }
 
-    @GetMapping("/list/search")
+    @GetMapping("/word/list/search")
     public String searchWord(@RequestParam(defaultValue = "1") Integer page, WordsListRequestDto requestDto, Model model){
         PageRequest pageable = PageRequest.of(page - 1, GlobalVariable.WORD_PAGE_SIZE);
         model.addAttribute("result", wordsService.findByDeleteFlgAndWordNameLike(requestDto.getKeyword(), pageable));
         model.addAttribute("requestDto", requestDto);
 
-        return "list_search";
+        return "/word/list_search";
     }
 
-    @GetMapping("/dummy")
-    public String addDummy() {
-        int userId = 1;
-        String wordName = "mbti";
-        String wordPronunciation = "엠비티아이";
-        String wordMeaning = "사기";
+    @GetMapping("/word/add")
+    public String addWord(Model model, WordAddRequestDto wordAddRequestDto) {
+        
+        model.addAttribute("wordAddRequestDto", wordAddRequestDto);
+        return "/word/add";
+    }
 
-        Random rand = new Random();
-        for(int i = 0; i < 30; i++) {
-            wordsRepository.save(Words.builder()
-                            .userId(userId)
-                            .wordName(wordName + i)
-                            .wordPronunciation(wordPronunciation)    
-                            .wordMeaning(wordMeaning)         
-                            .wordExample("엠비티아이 검사 했어?")
-                            .wordHits(i)
-                            .wordLike(i)
-                            .deleteFlg(0)
-                            .build());
+    @PostMapping("/word/add")
+    public String addWord(@Validated WordAddRequestDto wordAddRequestDto, BindingResult bindingResult, @LoginUser SessionUser user) {
+        if (bindingResult.hasErrors()) {
+            return "/word/add";
         }
-        return "insert";
+
+        wordAddRequestDto.setUserId(user.getUserId());
+        wordsService.add(wordAddRequestDto);
+        return "redirect:/word/list";
     }
 
-    @GetMapping("/dummy2")
-    public String addDummy2() {
-        int userId = 1;
-        String wordName = "많관부";
-        String wordPronunciation = "많관부";
-        String wordMeaning = "많은 관심 부탁드립니다 의 줄임말";
+    @GetMapping("/word/detail/{wordId}")
+    public String readWord(@PathVariable Integer wordId, Model model, HttpServletRequest httpServletRequest, HttpServletResponse response) {
+        
+        countUpWordHit(wordId, httpServletRequest, response);
+        model.addAttribute("word", wordsService.findByWordId(wordId));
 
-        Random rand = new Random();
-        for(int i = 0; i < 26; i++) {
-            wordsRepository.save(Words.builder()
-                            .userId(userId)
-                            .wordName(wordName + i)
-                            .wordPronunciation(wordPronunciation)    
-                            .wordMeaning(wordMeaning)         
-                            .wordExample("gongbu 많관부 입니다 ^^")
-                            .wordHits(i)
-                            .wordLike(i)
-                            .deleteFlg(0)
-                            .build());
+        return "/word/read";
+    }
+
+    @GetMapping("/word/edit/{wordId}")
+    public String editWord(@PathVariable Integer wordId, Model model, @LoginUser SessionUser user) {
+
+        WordResponseDto wordResponseDto = wordsService.findByWordId(wordId);
+
+        if(!checkWordOwner(wordResponseDto, user)) {
+            model.addAttribute("errorMessege", GlobalVariable.INVALID_ACCESS);
+            return "error";
         }
-        return "insert";
+
+        model.addAttribute("wordEditRequestDto", wordsService.findByWordId(wordId));
+        
+        return "/word/edit";
     }
+
+    @PostMapping("/word/edit")
+    public String editWord(@Validated WordEditRequestDto wordEditRequestDto, BindingResult bindingResult, @LoginUser SessionUser user) {
+        if (bindingResult.hasErrors()) {
+            return "/word/edit";
+        }
+        
+        wordsService.edit(wordEditRequestDto);
+        
+        return "redirect:/word/list";
+    }
+
+    @GetMapping("/word/delete/{wordId}")
+    public String deleteWord(@PathVariable Integer wordId, Model model, @LoginUser SessionUser user) {
+
+        WordResponseDto wordResponseDto = wordsService.findByWordId(wordId);
+
+        if(!checkWordOwner(wordResponseDto, user)) {
+            model.addAttribute("errorMessege", GlobalVariable.INVALID_ACCESS);
+            return "error";
+        }
+
+        wordsService.delete(wordId);
+        
+        return "redirect:/word/list";
+    }
+
+    @GetMapping("/word/like/{wordId}")
+    public String countUpLike(@PathVariable Integer wordId, Model model) {
+
+        wordsService.countUpWordLike(wordId);
+        model.addAttribute("word", wordsService.findByWordId(wordId));
+
+        return "redirect:/word/detail/" + wordId;
+    }
+
+    private void countUpWordHit(Integer wordId, HttpServletRequest request, HttpServletResponse response) {
+
+        String cookieValue = Integer.toString(wordId);
+        Cookie[] cookies = request.getCookies();
+        Cookie oldCookie = null;
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("wordId")) {
+                    oldCookie = cookie;
+                }
+            }
+        }
+
+        if (oldCookie != null) {
+            if (!oldCookie.getValue().contains("[" + cookieValue + "]")) {
+                wordsService.countUpWordHit(wordId);
+
+                oldCookie.setValue(oldCookie.getValue() + "_[" + cookieValue + "]");
+                oldCookie.setPath("/");
+                oldCookie.setMaxAge(GlobalVariable.COOKIE_MAX_AGE);
+                response.addCookie(oldCookie);
+            }
+        } else {
+            wordsService.countUpWordHit(wordId);
+
+            Cookie newCookie = new Cookie("wordId", "[" + cookieValue + "]");
+            newCookie.setPath("/");
+            newCookie.setMaxAge(GlobalVariable.COOKIE_MAX_AGE);
+            response.addCookie(newCookie);
+        }
+    }
+
+    private boolean checkWordOwner(WordResponseDto wordResponseDto, SessionUser user) {
+        return wordResponseDto.getUserId().equals(user.getUserId());
+    } 
 }

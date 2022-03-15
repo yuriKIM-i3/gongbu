@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="~{layout/layout}">
+  <th:block layout:fragment="content">
+    <div class="content rounded">
+      <div class="page-header">
+        <h4>ことば更新</h4>
+      </div>
+      <form th:action="@{/word/edit}" th:object="${wordEditRequestDto}" method="post">
+        <div class="py-5">
+          <div class="row mt-3 justify-content-center">
+            <label class="col-sm-2 col-form-label">ことば<span class="text-muted font-size-S">(必須)</span></label>
+            <div class="col-sm-5">
+              <input type="text" class="form-control" th:field="*{wordName}" maxlength="50" th:classappend="${#fields.hasErrors('wordName')} ? is-invalid">
+              <span th:if="${#fields.hasErrors('wordName')}" th:errors="*{wordName}" class="invalid-feedback"></span>
+            </div>
+          </div>
+          <div class="row mt-3 justify-content-center">
+            <label class="col-sm-2 col-form-label">発音<span class="text-muted font-size-S">(必須)</span></label>
+            <div class="col-sm-5">
+              <input type="text" class="form-control" th:field="*{wordPronunciation}" maxlength="100" th:classappend="${#fields.hasErrors('wordPronunciation')} ? is-invalid">
+              <span th:if="${#fields.hasErrors('wordPronunciation')}" th:errors="*{wordPronunciation}" class="invalid-feedback"></span>
+            </div>
+          </div>
+          <div class="row mt-3 justify-content-center">
+            <label class="col-sm-2 col-form-label">意味<span class="text-muted font-size-S">(必須)</span></label>
+            <div class="col-sm-5">
+              <input type="text" class="form-control" th:field="*{wordMeaning}" maxlength="255" th:classappend="${#fields.hasErrors('wordMeaning')} ? is-invalid">
+              <span th:if="${#fields.hasErrors('wordMeaning')}" th:errors="*{wordMeaning}" class="invalid-feedback"></span>
+            </div>
+          </div>
+          <div class="row mt-3 justify-content-center">
+            <label class="col-sm-2 col-form-label">例文</label>
+            <div class="col-sm-5">
+              <textarea class="form-control" rows="2" th:field="*{wordExample}" maxlength="500" th:classappend="${#fields.hasErrors('wordExample')} ? is-invalid"></textarea>
+              <span th:if="${#fields.hasErrors('wordExample')}" th:errors="*{wordExample}" class="invalid-feedback"></span>
+            </div>
+          </div>
+          <div class="row mt-3 justify-content-center">
+            <div class="col-3">
+              <button type="submit" class="btn btn-success">更新</button>              
+              <a class="btn btn-danger" th:href="@{'/word/detail/' + ${wordEditRequestDto.wordId}}" role="button">戻る</a>
+            </div>
+            <input type="hidden" th:field="*{wordId}"/>
+          </div>
+        </div>
+      </form>
+    </div>
+  </th:block>  
+</html>
