@@ -11,6 +11,7 @@ import javax.validation.constraints.Size;
 public class WordEditRequestDto {
 
     private Integer wordId;
+    private Integer userId;
 
     @NotBlank
 	@Size(max=50)

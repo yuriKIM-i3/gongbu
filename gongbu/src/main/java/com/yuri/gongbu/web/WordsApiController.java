@@ -35,6 +35,7 @@ import com.yuri.gongbu.web.dto.WordAddRequestDto;
 import com.yuri.gongbu.config.auth.dto.SessionUser;
 import com.yuri.gongbu.config.auth.LoginUser;
 import com.yuri.gongbu.web.dto.WordEditRequestDto;
+import com.yuri.gongbu.web.dto.WordResponseDto;
 
 @RequiredArgsConstructor
 @Controller
@@ -103,7 +104,14 @@ public class WordsApiController{
     }
 
     @GetMapping("/word/edit/{wordId}")
-    public String editWord(@PathVariable Integer wordId, Model model) {
+    public String editWord(@PathVariable Integer wordId, Model model, @LoginUser SessionUser user) {
+
+        WordResponseDto wordResponseDto = wordsService.findByWordId(wordId);
+
+        if(!checkWordOwner(wordResponseDto, user)) {
+            model.addAttribute("errorMessege", GlobalVariable.INVALID_ACCESS);
+            return "error";
+        }
 
         model.addAttribute("wordEditRequestDto", wordsService.findByWordId(wordId));
         
@@ -122,7 +130,15 @@ public class WordsApiController{
     }
 
     @GetMapping("/word/delete/{wordId}")
-    public String deleteWord(@PathVariable Integer wordId) {
+    public String deleteWord(@PathVariable Integer wordId, Model model, @LoginUser SessionUser user) {
+
+        WordResponseDto wordResponseDto = wordsService.findByWordId(wordId);
+
+        if(!checkWordOwner(wordResponseDto, user)) {
+            model.addAttribute("errorMessege", GlobalVariable.INVALID_ACCESS);
+            return "error";
+        }
+
         wordsService.delete(wordId);
         
         return "redirect:/word/list";
@@ -168,4 +184,8 @@ public class WordsApiController{
             response.addCookie(newCookie);
         }
     }
+
+    private boolean checkWordOwner(WordResponseDto wordResponseDto, SessionUser user) {
+        return wordResponseDto.getUserId().equals(user.getUserId());
+    } 
 }

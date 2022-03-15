@@ -19,7 +19,7 @@ public class WebConfig implements WebMvcConfigurer {
     private final LoginUserArgumentResolver loginUserArgumentResolver;
 
     public List resources
-            = Arrays.asList("/css/**", "/image/**", "/js/**", "/*.html");
+            = Arrays.asList("/css/**", "/image/**", "/*.html");
     
     /**
     LoginUserArgumentResolverがspringで認識できるよう、WebMvcConfigurerへ追加
@@ -32,7 +32,7 @@ public class WebConfig implements WebMvcConfigurer {
     /**
     インターセプト登録
      */
-     @Override
+    @Override
  	public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new SettingUserInfoInterceptor()) 
  				.order(1) 
