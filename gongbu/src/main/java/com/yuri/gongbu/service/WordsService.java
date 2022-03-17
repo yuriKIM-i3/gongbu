@@ -94,4 +94,11 @@ public class WordsService {
         Words word = wordsRepository.findByWordIdAndDeleteFlg(wordId, GlobalVariable.FALSE).orElseThrow(() -> new IllegalArgumentException("該当することばがありません。"));
         word.countUpLike();
     }
+
+    public List<WordsListResponseDto> rankTop10ByLike() {
+        List<Words> result = wordsRepository.findTop10ByDeleteFlgOrderByWordLikeDesc(GlobalVariable.FALSE);
+        List<WordsListResponseDto> words = result.stream().map(WordsListResponseDto::new).collect(Collectors.toList());
+
+        return words;
+    }
 }
