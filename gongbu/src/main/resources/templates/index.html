@@ -3,7 +3,7 @@
   <th:block layout:fragment="content">
     <div class="content rounded">
       <div class="page-header">
-        <h3>공부</h3>
+        <h3>ごんぶ</h3>
       </div>
       <div class="row">
         <div class="col-4">
@@ -15,45 +15,9 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>JMT</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>JMT</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>JMT</td>
-              </tr>
-              <tr>
-                <th scope="row">4</th>
-                <td>JMT</td>
-              </tr>
-              <tr>
-                <th scope="row">5</th>
-                <td>JMT</td>
-              </tr>
-              <tr>
-                <th scope="row">6</th>
-                <td>JMT</td>
-              </tr>
-              <tr>
-                <th scope="row">7</th>
-                <td>JMT</td>
-              </tr>
-              <tr>
-                <th scope="row">8</th>
-                <td>JMT</td>
-              </tr>
-              <tr>
-                <th scope="row">9</th>
-                <td>JMT</td>
-              </tr>
-              <tr>
-                <th scope="row">10</th>
-                <td>JMT</td>
+              <tr th:each="word, rank : ${hitsTop10}" style="transform: rotate(0);">
+                <th scope="row"><a th:href="@{'/word/detail/' + ${word.wordId}}" class="stretched-link"> [[${rank.count}]]</a></th>
+                <td th:text="${word.wordName}"></td>
               </tr>
             </tbody>
           </table>
@@ -67,8 +31,8 @@
                 </tr>
               </thead>
               <tbody>
-                <tr th:each="word, rank : ${likeTop10}">
-                  <th scope="row" th:text="${rank.count}"></th>
+                <tr th:each="word, rank : ${likeTop10}" style="transform: rotate(0);">
+                  <th scope="row"><a th:href="@{'/word/detail/' + ${word.wordId}}" class="stretched-link"> [[${rank.count}]]</a></th>
                   <td th:text="${word.wordName}"></td>
                 </tr>
               </tbody>

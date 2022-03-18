@@ -17,6 +17,7 @@ public class HomeApiController{
     @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("likeTop10", wordsService.rankTop10ByLike());
+        model.addAttribute("hitsTop10", wordsService.rankTop10ByHits());
 
         return "index";
     }

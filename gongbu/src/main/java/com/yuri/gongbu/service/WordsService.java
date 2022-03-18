@@ -101,4 +101,11 @@ public class WordsService {
 
         return words;
     }
+
+    public List<WordsListResponseDto> rankTop10ByHits() {
+        List<Words> result = wordsRepository.findTop10ByDeleteFlgOrderByWordHitsDesc(GlobalVariable.FALSE);
+        List<WordsListResponseDto> words = result.stream().map(WordsListResponseDto::new).collect(Collectors.toList());
+
+        return words;
+    }
 }
