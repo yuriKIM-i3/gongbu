@@ -22,6 +22,7 @@ import com.yuri.gongbu.global.GlobalVariable;
 import com.yuri.gongbu.domain.words.Words;
 import com.yuri.gongbu.web.dto.WordResponseDto;
 import com.yuri.gongbu.web.dto.WordEditRequestDto;
+import com.yuri.gongbu.web.dto.WordHomeResponseDto;
 
 @RequiredArgsConstructor
 @Service
@@ -95,17 +96,28 @@ public class WordsService {
         word.countUpLike();
     }
 
-    public List<WordsListResponseDto> rankTop10ByLike() {
+    public List<WordHomeResponseDto> rankTop10ByLike() {
         List<Words> result = wordsRepository.findTop10ByDeleteFlgOrderByWordLikeDesc(GlobalVariable.FALSE);
-        List<WordsListResponseDto> words = result.stream().map(WordsListResponseDto::new).collect(Collectors.toList());
+        List<WordHomeResponseDto> words = result.stream().map(WordHomeResponseDto::new).collect(Collectors.toList());
 
         return words;
     }
 
-    public List<WordsListResponseDto> rankTop10ByHits() {
+    public List<WordHomeResponseDto> rankTop10ByHits() {
         List<Words> result = wordsRepository.findTop10ByDeleteFlgOrderByWordHitsDesc(GlobalVariable.FALSE);
-        List<WordsListResponseDto> words = result.stream().map(WordsListResponseDto::new).collect(Collectors.toList());
+        List<WordHomeResponseDto> words = result.stream().map(WordHomeResponseDto::new).collect(Collectors.toList());
 
         return words;
+    }
+
+    public List<WordHomeResponseDto> getAllWords() {
+        List<Words> result = wordsRepository.findByDeleteFlg(GlobalVariable.FALSE);
+        List<WordHomeResponseDto> words = result.stream().map(WordHomeResponseDto::new).collect(Collectors.toList());
+
+        return words;
+    }
+
+    public WordHomeResponseDto getFirstWords() {
+        return new WordHomeResponseDto(wordsRepository.findTop1ByDeleteFlgOrderByWordIdAsc(GlobalVariable.FALSE));
     }
 }

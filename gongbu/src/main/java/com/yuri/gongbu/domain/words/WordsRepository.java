@@ -14,4 +14,6 @@ public interface WordsRepository extends JpaRepository<Words, Integer> {
     Optional<Words> findByWordId(Integer wordId);
     List<Words> findTop10ByDeleteFlgOrderByWordLikeDesc(Integer deleteFlg);
     List<Words> findTop10ByDeleteFlgOrderByWordHitsDesc(Integer deleteFlg);
+    List<Words> findByDeleteFlg(Integer deleteFlg);
+    Words findTop1ByDeleteFlgOrderByWordIdAsc(Integer deleteFlg);
 }
