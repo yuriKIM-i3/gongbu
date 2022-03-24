@@ -17,13 +17,14 @@ import java.util.stream.Collectors;
 
 import com.yuri.gongbu.service.WordsService;
 import com.yuri.gongbu.web.dto.WordHomeResponseDto;
+import com.yuri.gongbu.global.GlobalVariable;
 
 @RequiredArgsConstructor
 @Controller
 public class HomeApiController{
 
     private final WordsService wordsService;
-    // List<Integer> postedWords = new ArrayList<Integer>();
+    List<Integer> postedWords = new ArrayList<Integer>();
 
     @GetMapping("/")
     public String home(Model model) {
@@ -31,7 +32,6 @@ public class HomeApiController{
         model.addAttribute("likeTop10", wordsService.rankTop10ByLike());
         model.addAttribute("hitsTop10", wordsService.rankTop10ByHits());
         model.addAttribute("cardWord", wordsService.getFirstWords());
-        // postedWords.put(wordsService.getFirstWords().getWordId());
 
         return "index";
     }
@@ -44,10 +44,18 @@ public class HomeApiController{
         Random random = new Random();
         int randomValue = random.nextInt(wordsId.size());
 
+        if (postedWords.size() == GlobalVariable.POSTED_WORDS_MAX_SIZE) {
+            // 表示して1分が経ったことばは再表示できるようにする
+            postedWords.remove(0);
+        }
+        while (postedWords.contains(randomValue)){
+            randomValue = random.nextInt(wordsId.size());
+        }
+        postedWords.add(randomValue);
+
         WordHomeResponseDto randomWord = null;
         for (WordHomeResponseDto dto : wordsList) {
             if(dto.getWordId() == wordsList.get(randomValue).getWordId()){
-                // postedWords.put(dto.getWordId());
                 randomWord = dto;
             }
         }
