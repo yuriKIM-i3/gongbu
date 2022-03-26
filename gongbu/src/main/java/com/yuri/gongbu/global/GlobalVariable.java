@@ -15,4 +15,6 @@ public class GlobalVariable {
     public static String INVALID_ACCESS = "不正なアクセスです";   
 
     public static Integer COOKIE_MAX_AGE = 60 * 60 * 24;
+
+    public static Integer POSTED_WORDS_MAX_SIZE = 12;
 }

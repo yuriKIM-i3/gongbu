@@ -43,6 +43,6 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new UserCheckInterceptor()) 
  				.order(2) 
  				.addPathPatterns("/word/add", "/word/edit/**", "/word/delete/**", "/word/like/**") 
-                .excludePathPatterns("/", "/loginPage", "/word/list", "/word/detail/**", "/error"); 
+                .excludePathPatterns("/", "/loginPage", "/word/list", "/word/detail/**", "/word/random", "/error"); 
     }
 }

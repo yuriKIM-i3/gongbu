@@ -6,8 +6,7 @@
           <img th:src="@{/image/gongbu.jpg}">
         </div>
         <div th:if="${user eq null}" class="col-md-3 text-end align-self-center">
-          <a class="btn btn-outline-success me-2" th:href="@{/loginPage}" role="button">ログイン</a>
-          <button type="button" class="btn btn-success">新規登録</button>
+          <a class="btn btn-outline-success me-2" th:href="@{/loginPage}" role="button">ソーシャルログイン</a>
         </div>
         <div th:unless="${user eq null}" class="col-md-3 text-end align-self-center">
           <a class="btn btn-outline-success me-2" th:href="@{/logout}" role="button">ログアウト</a>
@@ -19,6 +18,9 @@
         <div class="container-fluid">
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" th:href="@{/}">ホーム</a>
+              </li>
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" th:href="@{/word/list}">ことば一覧</a>
               </li>

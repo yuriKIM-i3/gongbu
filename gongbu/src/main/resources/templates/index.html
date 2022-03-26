@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="~{layout/layout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="~{layout/layout}">  
   <th:block layout:fragment="content">
     <div class="content rounded">
       <div class="page-header">
-        <h3>공부</h3>
+        <h3>ごんぶ</h3>
       </div>
       <div class="row">
         <div class="col-4">
@@ -15,45 +15,9 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>JMT</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>JMT</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>JMT</td>
-              </tr>
-              <tr>
-                <th scope="row">4</th>
-                <td>JMT</td>
-              </tr>
-              <tr>
-                <th scope="row">5</th>
-                <td>JMT</td>
-              </tr>
-              <tr>
-                <th scope="row">6</th>
-                <td>JMT</td>
-              </tr>
-              <tr>
-                <th scope="row">7</th>
-                <td>JMT</td>
-              </tr>
-              <tr>
-                <th scope="row">8</th>
-                <td>JMT</td>
-              </tr>
-              <tr>
-                <th scope="row">9</th>
-                <td>JMT</td>
-              </tr>
-              <tr>
-                <th scope="row">10</th>
-                <td>JMT</td>
+              <tr th:each="word, rank : ${hitsTop10}" style="transform: rotate(0);">
+                <th scope="row"><a th:href="@{'/word/detail/' + ${word.wordId}}" class="stretched-link"> [[${rank.count}]]</a></th>
+                <td th:text="${word.wordName}"></td>
               </tr>
             </tbody>
           </table>
@@ -67,55 +31,19 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>JMT</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>JMT</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>JMT</td>
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                  <td>JMT</td>
-                </tr>
-                <tr>
-                  <th scope="row">5</th>
-                  <td>JMT</td>
-                </tr>
-                <tr>
-                  <th scope="row">6</th>
-                  <td>JMT</td>
-                </tr>
-                <tr>
-                  <th scope="row">7</th>
-                  <td>JMT</td>
-                </tr>
-                <tr>
-                  <th scope="row">8</th>
-                  <td>JMT</td>
-                </tr>
-                <tr>
-                  <th scope="row">9</th>
-                  <td>JMT</td>
-                </tr>
-                <tr>
-                  <th scope="row">10</th>
-                  <td>JMT</td>
+                <tr th:each="word, rank : ${likeTop10}" style="transform: rotate(0);">
+                  <th scope="row"><a th:href="@{'/word/detail/' + ${word.wordId}}" class="stretched-link"> [[${rank.count}]]</a></th>
+                  <td th:text="${word.wordName}"></td>
                 </tr>
               </tbody>
             </table>
           </div>   
           <div class="col-4">
-            <p class="mt-3">最近登録したことば</p>
+            <p class="mt-3">最近登録したことば(詳細はクリック!)</p>
             <div class="card mb-4 rounded-3 shadow-sm">
               <div class="card-body">
-                <h2 class="card-title pricing-card-title text-center">JMT</h2>
-                    <a href="#" class="stretched-link"></a>
+                <h2 class="card-title pricing-card-title text-center" id="cardWord">[[${cardWord.wordName}]]</h2>
+                    <a th:href="@{'/word/detail/' + ${cardWord.wordId}}" class="stretched-link cardWordLink"></a>
                   </div>
                 </ul>
               </div>
@@ -124,5 +52,22 @@
         </div>
       </div>
     </div>
+    <script type="text/javascript" th:inline="javascript">
+      setInterval(randomWordCall, 5000);
+
+      function randomWordCall() {
+        $.ajax({
+          url: '/word/random',
+          type: 'get',
+        }).done(function (data) {
+          const randomWord = JSON.parse(data);
+          var context = window.location.pathname.substring(0, window.location.pathname.indexOf("/",2)); 
+          var url =window.location.protocol+"//"+ window.location.host +context+"/word/detail/" + randomWord.wordId;
+
+          $("#cardWord").html(randomWord.wordName);
+          $(".cardWordLink").attr("href", url);
+        });
+      }
+    </script>
   </th:block>  
 </html>

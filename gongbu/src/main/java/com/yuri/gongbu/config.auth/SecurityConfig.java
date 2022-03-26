@@ -18,7 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .csrf().disable()
                 .headers().frameOptions().disable()
                 .and()
-                    .authorizeRequests().antMatchers("/", "/word/list/**", "/word/detail/**", "/loginPage", "/css/**", "/image/**").permitAll()
+                    .authorizeRequests().antMatchers("/", "/word/list/**", "/word/detail/**", "/word/random", "/loginPage", "/css/**", "/image/**").permitAll()
                     .antMatchers("/word/add", "/word/edit/**", "/word/delete/**", "/word/like").hasRole(Role.MEMBER.name())
                     .anyRequest().authenticated()
                 .and()
