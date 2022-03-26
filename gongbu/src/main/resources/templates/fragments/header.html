@@ -10,7 +10,7 @@
         </div>
         <div th:unless="${user eq null}" class="col-md-3 text-end align-self-center">
           <a class="btn btn-outline-success me-2" th:href="@{/logout}" role="button">ログアウト</a>
-          <button type="button" class="btn btn-success">マイページ</button>
+          <a class="btn btn-success" th:href="@{/myPage}" role="button">マイページ</a>
         </div>
       </div>
     </div>
