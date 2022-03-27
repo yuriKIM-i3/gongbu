@@ -9,4 +9,5 @@ import com.yuri.gongbu.domain.user.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
     //登録済みのユーザーかを確認
     Optional<User> findByUserEmailAndDeleteFlg(String userEmail, Integer deleteFlg);
+    User findByUserIdAndDeleteFlg(Integer userId, Integer deleteFlg);
 }

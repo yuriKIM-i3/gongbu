@@ -1,0 +1,37 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <th:block th:fragment="pagination_my_page">
+      <div class="col-3">
+        <nav aria-label="Page navigation example" th:if="${result.totalPages > 0}">
+          <ul class="pagination pagination-sm">
+            <li class="page-item">
+              <a th:if="${result.isFirst}" class="page-link a-disabled" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+              <a th:unless="${result.isFirst}" class="page-link" th:href="@{/myPage(page=${result.getNumber})}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>                                
+            <li class="page-item">
+              <a th:if="${result.hasPrevious}" class="page-link" th:href="@{/myPage(page=${result.getNumber})}">[[${result.getNumber}]]</a>
+            </li>
+            <li class="page-item active" aria-current="page"><span class="page-link">[[${result.getNumber + 1}]]</span></li>
+            <li class="page-item">
+              <a th:if="${result.hasNext}" class="page-link" th:href="@{/myPage(page=${result.getNumber + 2})}">[[${result.getNumber + 2 }]]</a>
+            </li>
+            <li class="page-item" th:if="${result.totalPages > 2 && result.isFirst}">
+              <!-- トタルページが3つ以上、かつ現在のページが1である場合、ページ番号を表示するように -->
+              <a class="page-link" th:href="@{/myPage(page=${result.getNumber + 3})}">[[${result.getNumber + 3 }]]</a>
+            </li>
+            <li class="page-item">
+              <a th:if="${result.isLast}" class="page-link a-disabled" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+              <a th:unless="${result.isLast}" class="page-link" th:href="@{/myPage(page=${result.getNumber + 2})}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </th:block>
+</html>

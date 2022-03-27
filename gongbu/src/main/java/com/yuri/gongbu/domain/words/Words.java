@@ -9,11 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import java.sql.Timestamp;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 
 import com.yuri.gongbu.domain.BaseTimeEntity;
 import com.yuri.gongbu.global.GlobalVariable;
+import com.yuri.gongbu.domain.user.User;
 
 @Getter
 @NoArgsConstructor
@@ -24,7 +25,7 @@ public class Words extends BaseTimeEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer wordId;
 
-    @Column
+    @Column(name = "user_id")
     private Integer userId;
 
     @Column(length = 50, nullable = false)
@@ -47,6 +48,10 @@ public class Words extends BaseTimeEntity{
 
     @Column 
     private Integer deleteFlg;
+
+    @ManyToOne
+    @JoinColumn(name="user_id", insertable=false, updatable=false)
+    private User user;
 
     @Builder
     public Words(Integer userId, String wordName, String wordPronunciation, String wordMeaning, String wordExample, 
