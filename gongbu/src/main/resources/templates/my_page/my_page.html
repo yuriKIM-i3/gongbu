@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="~{layout/layout}">
+  <th:block layout:fragment="content">
+    <div class="content rounded">
+      <div class="page-header">
+        <h4>マイページ</h4>
+      </div>
+      <div class="row pt-3 mypage_content">
+        <div class="col-3">
+          <div class="list-group">
+            <a th:href="@{/myPage}" class="list-group-item list-group-item-action list-group-item-success">登録したことば</a>
+            <a href="#" class="list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">会員脱会</a>
+            <!-- Button trigger modal -->
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-body">「はい」をクリックすると会員脱会をします、。よろしいですか？</div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">いいえ</button>
+                    <a class="btn btn-danger" th:href="@{/signOut}" role="button">はい</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-9">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <tr>
+                  <th scope="col">No</th>
+                  <th scope="col">ことば</th>
+                  <th scope="col">訪問数</th>
+                  <th scope="col">いいね数</th>
+                  <th scope="col">登録日時</th>
+                </tr>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="word, st: ${result.words}" style="transform: rotate(0);">
+                <th scope="row"><a th:href="@{'/word/detail/' + ${word.wordId}}" class="stretched-link" th:text="${result.getNumber} * 10 + ${st.count}"></a></th>
+                <td th:text="${word.wordName}"></td>
+                <td th:text="${word.wordHits}"></td>
+                <td th:text="${word.wordLike}"></td>
+                <td th:text="${#temporals.format(word.createdAt, 'yyyy/MM/dd HH:mm')}"></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="row justify-content-center">
+            <th:block th:replace="fragments/pagination_my_page :: pagination_my_page"></th:block>
+          </div>
+        </div>
+      </div>
+    </div>
+  </th:block>  
+</html>

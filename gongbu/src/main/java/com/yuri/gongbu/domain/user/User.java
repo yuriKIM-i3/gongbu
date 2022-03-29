@@ -12,10 +12,14 @@ import javax.persistence.Id;
 import javax.persistence.Enumerated;
 import javax.persistence.EnumType;
 import javax.persistence.Table;
+import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
 
-import java.sql.Timestamp;
+import java.util.List;
 
 import com.yuri.gongbu.domain.BaseTimeEntity;
+import com.yuri.gongbu.domain.words.Words;
+import com.yuri.gongbu.global.GlobalVariable;
 
 @Getter
 @NoArgsConstructor
@@ -39,6 +43,9 @@ public class User extends BaseTimeEntity{
     @Column 
     private Integer deleteFlg;
 
+    @OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+    private List<Words> words;
+
     @Builder
     public User(String userName, String userEmail, Role userRole, Integer deleteFlg) {
         this.userName = userName;
@@ -55,5 +62,9 @@ public class User extends BaseTimeEntity{
 
     public String getUserRoleKey() {
         return this.userRole.getKey();
+    }
+
+    public void signOut() {
+        this.deleteFlg = GlobalVariable.TRUE;
     }
 }

@@ -23,6 +23,7 @@ import com.yuri.gongbu.domain.words.Words;
 import com.yuri.gongbu.web.dto.WordResponseDto;
 import com.yuri.gongbu.web.dto.WordEditRequestDto;
 import com.yuri.gongbu.web.dto.WordHomeResponseDto;
+import com.yuri.gongbu.web.dto.MyPageWordsListResponseDto;
 
 @RequiredArgsConstructor
 @Service
@@ -119,5 +120,21 @@ public class WordsService {
 
     public WordHomeResponseDto getFirstWords() {
         return new WordHomeResponseDto(wordsRepository.findTop1ByDeleteFlgOrderByWordIdAsc(GlobalVariable.FALSE));
+    }
+
+    public Map<String, Object> findMyWord(Integer userId, Pageable pageable) {
+        Page<Words> result = wordsRepository.findByUserIdAndDeleteFlg(userId, GlobalVariable.FALSE, pageable);
+        Map<String, Object> resultMap = new HashMap<>();
+        List<MyPageWordsListResponseDto> words = result.stream().map(MyPageWordsListResponseDto::new).collect(Collectors.toList());
+
+        resultMap.put("words", words);
+        resultMap.put("isFirst", result.isFirst());
+        resultMap.put("isLast", result.isLast());
+        resultMap.put("hasNext", result.hasNext());
+        resultMap.put("hasPrevious", result.hasPrevious());
+        resultMap.put("getNumber", result.getNumber());
+        resultMap.put("totalPages", result.getTotalPages());
+
+        return resultMap;
     }
 }

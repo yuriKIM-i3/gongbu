@@ -17,4 +17,6 @@ public class GlobalVariable {
     public static Integer COOKIE_MAX_AGE = 60 * 60 * 24;
 
     public static Integer POSTED_WORDS_MAX_SIZE = 12;
+
+    public static Integer MY_PAGE_WORD_PAGE_SIZE = 10;
 }
