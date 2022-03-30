@@ -36,12 +36,15 @@ import com.yuri.gongbu.config.auth.dto.SessionUser;
 import com.yuri.gongbu.config.auth.LoginUser;
 import com.yuri.gongbu.web.dto.WordEditRequestDto;
 import com.yuri.gongbu.web.dto.WordResponseDto;
+import com.yuri.gongbu.service.WordLikeService;
+import com.yuri.gongbu.web.dto.WordLikeAddRequestDto;
 
 @RequiredArgsConstructor
 @Controller
 public class WordsApiController{
 
     private final WordsService wordsService;
+    private final WordLikeService wordLikeService;
     private final WordsRepository wordsRepository;
 
     @GetMapping("/word/list")
@@ -145,8 +148,14 @@ public class WordsApiController{
     }
 
     @GetMapping("/word/like/{wordId}")
-    public String countUpLike(@PathVariable Integer wordId, Model model) {
+    public String countUpLike(@PathVariable Integer wordId, Model model, @LoginUser SessionUser user) {
 
+        if (wordLikeService.isLikeButtonClicked(user.getUserId(), wordId)) {
+            model.addAttribute("errorMessege", "すでに♥しました。");
+            return "redirect:/word/detail/" + wordId;
+        }
+
+        wordLikeService.add(new WordLikeAddRequestDto(user.getUserId(), wordId));
         wordsService.countUpWordLike(wordId);
         model.addAttribute("word", wordsService.findByWordId(wordId));
 
