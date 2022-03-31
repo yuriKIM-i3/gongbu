@@ -28,10 +28,13 @@
         <div class="col" th:each="word : ${result.words}">
           <div class="card mb-4 rounded-3 shadow-sm">
             <div class="card-body">
-              <h1 class="card-title pricing-card-title" th:text="${word.wordName}"></h1>
+              <h1 class="card-title pricing-card-title" th:if="${ 5 < #strings.length(word.wordName)}" th:text="|${#strings.substring(word.wordName,0,4)}…|"></h1>
+              <h1 class="card-title pricing-card-title" th:unless="${ 5 < #strings.length(word.wordName)}" th:text="${word.wordName}"></h1>
               <ul class="list-unstyled mt-3 mb-4">
-                <li><p class="fw-light" th:text="${word.wordPronunciation}"></p></li>
-                <li><p class="fs-5" th:text="${word.wordMeaning}"></p></li>
+                <li><p class="fw-light" th:if="${ 14 < #strings.length(word.wordPronunciation)}" th:text="|${#strings.substring(word.wordPronunciation,0,13)}…|"></p></li>
+                <li><p class="fw-light" th:unless="${ 14 < #strings.length(word.wordPronunciation)}" th:text="${word.wordPronunciation}"></p></li>
+                <li><p class="fs-5" th:if="${ 11 < #strings.length(word.wordMeaning)}" th:text="|${#strings.substring(word.wordMeaning,0,10)}…|"></p></li>
+                <li><p class="fs-5" th:unless="${ 11 < #strings.length(word.wordMeaning)}" th:text="${word.wordMeaning}"></p></li>
                 <div class="row justify-content-evenly">
                   <div class="col-5">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
