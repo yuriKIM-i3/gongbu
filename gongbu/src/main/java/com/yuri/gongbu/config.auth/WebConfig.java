@@ -7,19 +7,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 
 import java.util.List;
-import java.util.Arrays;
 
 import com.yuri.gongbu.filter.SettingUserInfoInterceptor;
 import com.yuri.gongbu.filter.UserCheckInterceptor;
+import com.yuri.gongbu.global.GlobalVariable;
 
 @RequiredArgsConstructor
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
     private final LoginUserArgumentResolver loginUserArgumentResolver;
-
-    public List resources
-            = Arrays.asList("/css/**", "/image/**", "/*.html");
     
     /**
     LoginUserArgumentResolverがspringで認識できるよう、WebMvcConfigurerへ追加
@@ -37,12 +34,12 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new SettingUserInfoInterceptor()) 
  				.order(1) 
  				.addPathPatterns("/**") 
- 				.excludePathPatterns(resources)
+ 				.excludePathPatterns(GlobalVariable.PATH_FOR_STATIC_RESOURCE)
                 .excludePathPatterns("/error");
 
         registry.addInterceptor(new UserCheckInterceptor()) 
  				.order(2) 
- 				.addPathPatterns("/word/add", "/word/edit/**", "/word/delete/**", "/word/like/**") 
-                .excludePathPatterns("/", "/loginPage", "/word/list", "/word/detail/**", "/word/random", "/error"); 
+ 				.addPathPatterns(GlobalVariable.PATH_FOR_MEMBER) 
+                .excludePathPatterns(GlobalVariable.PATH_FOR_ALL); 
     }
 }

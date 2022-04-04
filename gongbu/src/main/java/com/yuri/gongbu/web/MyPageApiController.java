@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 
 import lombok.RequiredArgsConstructor;
 
-import com.yuri.gongbu.web.dto.MyPageWordsListResponseDto;
 import com.yuri.gongbu.config.auth.dto.SessionUser;
 import com.yuri.gongbu.config.auth.LoginUser;
 import com.yuri.gongbu.service.WordsService;

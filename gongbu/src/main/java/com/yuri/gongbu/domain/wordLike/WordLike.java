@@ -27,7 +27,6 @@ public class WordLike extends BaseTimeEntity{
     @Column
     private Integer wordId;
 
-
     @Builder
     public WordLike(Integer userId, Integer wordId) {
         this.userId = userId;

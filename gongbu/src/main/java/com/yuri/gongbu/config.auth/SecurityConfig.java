@@ -5,7 +5,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import java.util.stream.Stream;
+import java.util.Arrays;
+
 import com.yuri.gongbu.domain.user.Role;
+import com.yuri.gongbu.global.GlobalVariable;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -18,8 +22,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .csrf().disable()
                 .headers().frameOptions().disable()
                 .and()
-                    .authorizeRequests().antMatchers("/", "/word/list/**", "/word/detail/**", "/word/random", "/loginPage", "/css/**", "/image/**").permitAll()
-                    .antMatchers("/word/add", "/word/edit/**", "/word/delete/**", "/word/like").hasRole(Role.MEMBER.name())
+                    .authorizeRequests()
+                    .antMatchers(Stream.concat(Arrays.stream(GlobalVariable.PATH_FOR_ALL), Arrays.stream(GlobalVariable.PATH_FOR_STATIC_RESOURCE)).toArray(String[]::new)).permitAll()
+                    .antMatchers(GlobalVariable.PATH_FOR_MEMBER).hasRole(Role.MEMBER.name())
                     .anyRequest().authenticated()
                 .and()
 		            .formLogin().loginPage("/loginPage")
