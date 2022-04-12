@@ -1,0 +1,1 @@
+ALTER TABLE word_like ADD COLUMN updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP;

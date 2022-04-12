@@ -28,8 +28,7 @@ services:
       - FLYWAY_URL=jdbc:postgresql://db:5432/gongbu
       - FLYWAY_USER=gongbu
       - FLYWAY_PASSWORD=gongbu
-      - FLYWAY_SCHEMAS=gongbu
-      - FLYWAY_LOCATIONS=filesystem:./src/main/resources/db/migration
+      - FLYWAY_LOCATIONS=filesystem:src/main/resources/db/migration
     # entrypoint: |
     #   bash -e -c "
     #   gradle build
