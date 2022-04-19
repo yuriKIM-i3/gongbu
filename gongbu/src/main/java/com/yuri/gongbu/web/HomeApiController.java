@@ -63,6 +63,11 @@ public class HomeApiController{
         return getJson(randomWord);
     }
 
+    @GetMapping("/about")
+    public String about() {
+        return "about";
+    }
+
     private String getJson(WordHomeResponseDto dto){
         String retVal = null;
         ObjectMapper objectMapper = new ObjectMapper();
