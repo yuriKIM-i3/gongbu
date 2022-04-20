@@ -1,4 +1,4 @@
-package com.yuri.gongbu.filter;
+package com.yuri.gongbu.interceptor;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,7 +21,10 @@ public class SettingUserInfoInterceptor implements HandlerInterceptor {
 
         if (!Objects.isNull(session)) {
             SessionUser user = (SessionUser) session.getAttribute("user");
-            modelAndView.addObject("user", user);
+            // 静的リソースはmodelAndViewがnull
+            if (Objects.nonNull(modelAndView)) {
+                modelAndView.addObject("user", user);
+            }
         }          
     }
 

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="~{layout/layout}">
 <head>
-  <script th:src="@{/js/word-read.js}"></script>
 </head>
   <th:block layout:fragment="content">
     <div class="content rounded">
@@ -24,9 +23,9 @@
             <span id="wordLike" th:text="${word.wordLike}"></span>
           </div>
         </div>
-        <div class="row mt-3">
+        <div class="row mt-3 border-bottom">
           <div class="col">
-            <span class="fs-2" th:text="${word.wordName}"></span><span class="fs-4" th:text="${word.wordPronunciation}"></span>
+            <span class="fs-2" th:text="${word.wordName}"></span>&nbsp;<span class="fs-5" th:text="${word.wordPronunciation}"></span>
           </div>
         </div>
         <div class="row mt-3">

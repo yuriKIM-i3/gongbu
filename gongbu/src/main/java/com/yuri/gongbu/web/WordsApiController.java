@@ -1,10 +1,8 @@
 package com.yuri.gongbu.web;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,12 +12,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Random;
-import java.util.Objects;
 import java.util.List;
-import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,12 +30,15 @@ import com.yuri.gongbu.config.auth.dto.SessionUser;
 import com.yuri.gongbu.config.auth.LoginUser;
 import com.yuri.gongbu.web.dto.WordEditRequestDto;
 import com.yuri.gongbu.web.dto.WordResponseDto;
+import com.yuri.gongbu.service.WordLikeService;
+import com.yuri.gongbu.web.dto.WordLikeAddRequestDto;
 
 @RequiredArgsConstructor
 @Controller
 public class WordsApiController{
 
     private final WordsService wordsService;
+    private final WordLikeService wordLikeService;
     private final WordsRepository wordsRepository;
 
     @GetMapping("/word/list")
@@ -145,8 +142,14 @@ public class WordsApiController{
     }
 
     @GetMapping("/word/like/{wordId}")
-    public String countUpLike(@PathVariable Integer wordId, Model model) {
+    public String countUpLike(@PathVariable Integer wordId, Model model, @LoginUser SessionUser user) {
 
+        if (wordLikeService.isLikeButtonClicked(user.getUserId(), wordId)) {
+            model.addAttribute("errorMessege", "すでに♥しました。");
+            return "redirect:/word/detail/" + wordId;
+        }
+
+        wordLikeService.add(new WordLikeAddRequestDto(user.getUserId(), wordId));
         wordsService.countUpWordLike(wordId);
         model.addAttribute("word", wordsService.findByWordId(wordId));
 

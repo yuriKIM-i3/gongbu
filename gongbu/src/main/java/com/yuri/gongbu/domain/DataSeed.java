@@ -24,8 +24,8 @@ public class DataSeed implements CommandLineRunner {
 	public void run(String... args) throws Exception {
         String arg = (args.length > 0) ? args[0] : null;
         if(!Objects.isNull(arg) && arg.equals("seedingData")){
-            seedWordsTable();
             seedUserTable();
+            seedWordsTable();
         }
 	}
 

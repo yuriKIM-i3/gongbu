@@ -19,4 +19,10 @@ public class GlobalVariable {
     public static Integer POSTED_WORDS_MAX_SIZE = 12;
 
     public static Integer MY_PAGE_WORD_PAGE_SIZE = 10;
+
+    public static String[] PATH_FOR_MEMBER = new String[]{"/word/add", "/word/edit/**", "/word/delete/**", "/word/like/**"};
+
+    public static String[] PATH_FOR_ALL = new String[]{"/", "/about", "/word/list/**", "/word/detail/**", "/word/random", "/loginPage", "/error"};
+
+    public static String[] PATH_FOR_STATIC_RESOURCE = new String[]{"/css/**", "/image/**", "/*.html"};
 }

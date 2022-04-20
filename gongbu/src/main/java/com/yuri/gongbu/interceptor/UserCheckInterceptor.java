@@ -1,4 +1,4 @@
-package com.yuri.gongbu.filter;
+package com.yuri.gongbu.interceptor;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
