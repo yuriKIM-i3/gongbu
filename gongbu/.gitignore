@@ -38,3 +38,6 @@ out/
 
 ### oauth2 ###
 application-oauth.properties
+
+### デプロイで作られた動的なアウトプットを省く ###
+build.zip
