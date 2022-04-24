@@ -13,3 +13,6 @@ gradle bootRun(to seeding data try this > gradle bootRun --args='seedingData')
 docker exec -it db bash
 psql -d gongbu -U gongbu
 ```
+
+
+docker-compose -f docker-compose-gitaction.yml up

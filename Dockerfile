@@ -8,7 +8,7 @@ RUN apt update && apt upgrade -y && apt install -y curl gnupg sudo git vim wget 
 #디폴트, 만약 도커컴포즈 실행시 build.arg에 정의한 ARG가 없을때
 ARG UID=1001
 ARG GID=1001
-ARG UNAME=1001
+ARG UNAME=dev-ec2-user
 
 ENV UID ${UID}
 ENV GID ${GID}
