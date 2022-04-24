@@ -10,4 +10,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - run: docker-compose -f docker-compose-gitaction.yml up
+    - run: docker-compose -f docker-compose-gitaction.yml build
+    - run: docker-compose -f docker-compose-gitaction.yml up --abort-on-container-exit
