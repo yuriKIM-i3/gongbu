@@ -25,6 +25,7 @@ services:
       - FLYWAY_LOCATIONS=filesystem:src/main/resources/db/migration
     entrypoint: |
       bash -e -c "
+      sleep 5
       flyway migrate
       gradle build
       " 
