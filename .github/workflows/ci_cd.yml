@@ -1,0 +1,13 @@
+name: Test for CI, S3 cp for CD
+
+on: [push]
+
+jobs:
+  test:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - run: docker-compose -f docker-compose-gitaction.yml up
