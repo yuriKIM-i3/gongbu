@@ -20,10 +20,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 
-// @RunWith(SpringRunner.class)
-@SpringBootTest
+
+// @SpringBootTest
+@ExtendWith(SpringExtension.class)
 public class WordsRepositoryTest {
     // @Autowired
     // WordsRepository wordsRepository;
