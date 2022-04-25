@@ -1,12 +1,11 @@
 package com.yuri.gongbu.domain.words;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 import java.util.List;
 
@@ -19,15 +18,19 @@ import com.yuri.gongbu.global.GlobalVariable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+
+// @RunWith(SpringRunner.class)
+// @SpringBootTest
 public class WordsRepositoryTest {
     // @Autowired
     // WordsRepository wordsRepository;
     // @Autowired
     // UserRepository userRepository;
 
-    // @Before
+    // @BeforeEach
     // public void setup() {
     //     userRepository.save(User.builder()
     //         .userName("yuriSAMA")
@@ -62,7 +65,8 @@ public class WordsRepositoryTest {
         // Words words = list.get(0);
         // assertThat(words.getWordName()).isEqualTo(wordName);
         // assertThat(words.getWordMeaning()).isEqualTo(wordMeaning);
-        assertThat(1).isEqualTo(1);
+        assertEquals(1, 1);
+
     }
 
     // @After
