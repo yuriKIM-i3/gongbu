@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 // @RunWith(SpringRunner.class)
-// @SpringBootTest
+@SpringBootTest
 public class WordsRepositoryTest {
     // @Autowired
     // WordsRepository wordsRepository;
