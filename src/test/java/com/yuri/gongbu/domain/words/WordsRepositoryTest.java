@@ -3,12 +3,11 @@ package com.yuri.gongbu.domain.words;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import static org.junit.jupiter.api.Assertions.*;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 
 import com.yuri.gongbu.domain.words.WordsRepository;
 import com.yuri.gongbu.domain.words.Words;
@@ -17,22 +16,15 @@ import com.yuri.gongbu.domain.user.User;
 import com.yuri.gongbu.domain.user.Role;
 import com.yuri.gongbu.global.GlobalVariable;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class WordsRepositoryTest {
-    // @Autowired
     
-    // @Autowired
-
-
-    private final WordsRepository wordsRepository;
-    private final UserRepository userRepository;
+    @Autowired
+    private WordsRepository wordsRepository;
 
     @Autowired
-    WordsRepositoryTest(WordsRepository wordsRepository, UserRepository userRepository) {
-        this.wordsRepository = wordsRepository;
-        this.userRepository = userRepository;
-    }
+    private UserRepository userRepository;
 
     @BeforeEach
     public void setup() {
