@@ -20,11 +20,7 @@ services:
     depends_on:
       - db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/gongbu
-      - SPRING_DATASOURCE_USERNAME=gongbu
-      - SPRING_DATASOURCE_PASSWORD=gongbu
       - SPRING_PROFILES_ACTIVE=dev
-      - DB_HOST=db
       - FLYWAY_URL=jdbc:postgresql://db:5432/gongbu
       - FLYWAY_USER=gongbu
       - FLYWAY_PASSWORD=gongbu
