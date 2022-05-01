@@ -12,5 +12,6 @@ phases:
       - pwd
       - ls -al
       - cd ./server && javac CreateSpringBootProps.java && java CreateSpringBootProps
+      - cd ../
       - pwd
       - ls -al
