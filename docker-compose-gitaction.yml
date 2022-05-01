@@ -14,20 +14,15 @@ services:
     depends_on:
       - db_test
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db_test:5432/gongbu
-      - SPRING_DATASOURCE_USERNAME=gongbu
-      - SPRING_DATASOURCE_PASSWORD=gongbu
-      - SPRING_PROFILES_ACTIVE=dev
-      - DB_HOST=db_test
+      - SPRING_PROFILES_ACTIVE=test
       - FLYWAY_URL=jdbc:postgresql://db_test:5432/gongbu
       - FLYWAY_USER=gongbu
       - FLYWAY_PASSWORD=gongbu
       - FLYWAY_LOCATIONS=filesystem:src/main/resources/db/migration
     entrypoint: |
       bash -e -c "
-      sleep 5
       flyway migrate
-      gradle build
+      gradle test
       " 
   db_test:
     image: postgres:11.14
