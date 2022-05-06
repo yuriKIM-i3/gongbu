@@ -34,4 +34,13 @@ phases:
       - echo $LAST_TASK_DEF_ARN
       - aws ecs describe-task-definition --task-definition $LAST_TASK_DEF_ARN --output json | jq . > origin_task_definition.json
       - python ./server/edit_task_def.py
+
+      - cat server/appspec.yaml | sed -e s@\<SB_CONTAINER_NAME\>@$SB_CONTAINER_NAME@ > appspec.yaml
+
       - cat $EDITED_TASK_DEF
+      - cat appspec.yaml
+
+artifacts:
+  files:
+    - appspec.yaml
+    - task_definition.json
