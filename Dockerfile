@@ -1,4 +1,6 @@
-FROM gradle:7.2.0-jdk16-openj9 
+ARG ECR_GRADLE_URI=gradle:7.2.0-jdk16-openj9
+# FROM gradle:7.2.0-jdk16-openj9
+FROM $ECR_GRADLE_URI
 ENV APP_HOME=/usr/app/
 
 RUN apt update && apt upgrade -y && apt install -y curl gnupg sudo git vim wget && \
@@ -21,3 +23,7 @@ RUN sudo ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 USER $UNAME
 RUN wget -qO- https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/8.5.1/flyway-commandline-8.5.1-linux-x64.tar.gz | tar xvz -C /home/$UNAME && sudo ln -s /home/$UNAME/flyway-8.5.1/flyway /usr/local/bin
 USER root
+
+WORKDIR /gongbu/home
+COPY . /gongbu/home
+RUN gradle build -x test
