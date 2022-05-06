@@ -42,7 +42,6 @@ application-prd.properties
 
 ### デプロイで作られた動的なアウトプットを省く ###
 build.zip
-CreateSpringBootProps.class
 
 # terraformの状態ファイルはpushしない
 */.terraform/*

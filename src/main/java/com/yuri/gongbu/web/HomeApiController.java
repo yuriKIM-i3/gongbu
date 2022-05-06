@@ -68,6 +68,12 @@ public class HomeApiController{
         return "about";
     }
 
+    @GetMapping("/health")
+    @ResponseBody
+    public String checkHeathy() {
+        return "I'm healthy!";
+    }
+
     private String getJson(WordHomeResponseDto dto){
         String retVal = null;
         ObjectMapper objectMapper = new ObjectMapper();
