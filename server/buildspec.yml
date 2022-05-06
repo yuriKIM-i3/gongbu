@@ -12,9 +12,17 @@ phases:
 
       - $(aws ecr get-login --no-include-email --region ${AWS_DEFAULT_REGION})
 
-      - docker images
       # docker pull limit対策
       - ECR_GRADLE_URI=$WEB_REPOSITORY_URL:gradle-7.2.0-jdk16-openj9
       - DOCKER_GRADLE_URI=gradle:7.2.0-jdk16-openj9
       - docker pull $ECR_GRADLE_URI || (docker pull $DOCKER_GRADLE_URI && docker tag $DOCKER_GRADLE_URI $ECR_GRADLE_URI && docker push $ECR_GRADLE_URI && true)
-      - docker images
+
+  build:
+    commands:
+      - ECR_WEB_URI=$WEB_REPOSITORY_URL:latest
+      - docker build -t $ECR_WEB_URI --build-arg ECR_GRADLE_URI=$ECR_GRADLE_URI .
+      - docker push $ECR_WEB_URI
+
+  # post_build:
+  #   commands:
+  #     - command
