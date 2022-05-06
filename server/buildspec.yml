@@ -4,12 +4,11 @@ phases:
   install:
     # https://github.com/aws/aws-codebuild-docker-images/blob/master/ubuntu/standard/4.0/Dockerfile
     runtime-versions:
-      java: corretto11
+      python: 3.9
 
   pre_build:
     commands:
-      - cd ./server && javac CreateSpringBootProps.java && java CreateSpringBootProps
-      - cd ../
+      - python ./server/create_application_props.py
 
       - $(aws ecr get-login --no-include-email --region ${AWS_DEFAULT_REGION})
 
@@ -24,6 +23,15 @@ phases:
       - docker build -t $ECR_WEB_URI --build-arg ECR_GRADLE_URI=$ECR_GRADLE_URI .
       - docker push $ECR_WEB_URI
 
-  # post_build:
-  #   commands:
-  #     - command
+  post_build:
+    commands:
+      - export EDITED_TASK_DEF=task_definition.json
+      - export LAST_TASK_DEF_ARN=$(aws ecs list-task-definitions --family-prefix $ECS_FAMILY --sort DESC --max-items 1 --query 'taskDefinitionArns[0]' --output json)
+
+      # LAST_TASK_DEF_ARNの結果値が「"」で囲まれていて困る。取り除く
+      - LAST_TASK_DEF_ARN="${LAST_TASK_DEF_ARN%\"}"
+      - LAST_TASK_DEF_ARN="${LAST_TASK_DEF_ARN#\"}"
+      - echo $LAST_TASK_DEF_ARN
+      - aws ecs describe-task-definition --task-definition $LAST_TASK_DEF_ARN --output json | jq . > origin_task_definition.json
+      - python ./server/edit_task_def.py
+      - cat $EDITED_TASK_DEF
