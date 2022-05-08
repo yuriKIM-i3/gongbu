@@ -1,7 +1,6 @@
 terraform {
   required_version = ">= 1.1.3"
 
-  # このbucketは手動で作ります（terraformが作ってくれません）
   backend "s3" {
     bucket  = "gongbu-prd-tf"
     key     = "prd"
