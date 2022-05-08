@@ -13,21 +13,21 @@ jobs:
     - run: docker-compose -f docker-compose-gitaction.yml build
     - run: docker-compose -f docker-compose-gitaction.yml up --abort-on-container-exit
 
-  # s3_cp_for_aws_codepipeline:
-  #   needs: test
-  #   if: github.ref == 'refs/heads/production'
+  s3_cp_for_aws_codepipeline:
+    needs: test
+    if: github.ref == 'refs/heads/production'
 
-  #   runs-on: ubuntu-20.04
+    runs-on: ubuntu-20.04
 
-  #   steps:
-  #   - uses: actions/checkout@v2
+    steps:
+    - uses: actions/checkout@v2
 
-  #   - name: Configure AWS Credentials
-  #     uses: aws-actions/configure-aws-credentials@v1
-  #     with:
-  #       aws-access-key-id: ${{ secrets.S3_AWS_ACCESS_KEY_ID }}
-  #       aws-secret-access-key: ${{ secrets.S3_AWS_SECRET_ACCESS_KEY }}
-  #       aws-region: ap-northeast-1
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.S3_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.S3_AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-1
 
-  #   - run: git archive -o build.zip HEAD
-  #   - run: aws s3 cp ./build.zip s3://gongbu-app-pipeline-src/build.zip
+    - run: git archive -o build.zip HEAD
+    - run: aws s3 cp ./build.zip s3://gongbu-app-pipeline-src/build.zip
