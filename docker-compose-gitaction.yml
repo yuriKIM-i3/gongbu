@@ -1,0 +1,36 @@
+
+version: '3.8'
+services:
+  web_test:
+    container_name: 'web_test'
+    build:
+      context: .
+    tty: true
+    working_dir: '/gongbu/home'
+    volumes:
+      - .:/gongbu/home
+    ports: 
+      - "8080:8080"
+    depends_on:
+      - db_test
+    environment:
+      - SPRING_PROFILES_ACTIVE=test
+      - FLYWAY_URL=jdbc:postgresql://db_test:5432/gongbu
+      - FLYWAY_USER=gongbu
+      - FLYWAY_PASSWORD=gongbu
+      - FLYWAY_LOCATIONS=filesystem:src/main/resources/db/migration
+    entrypoint: |
+      bash -e -c "
+      flyway migrate
+      gradle test
+      " 
+  db_test:
+    image: postgres:11.14
+    container_name: db_test
+    environment:
+      - POSTGRES_DB=gongbu
+      - POSTGRES_USER=gongbu
+      - POSTGRES_PASSWORD=gongbu
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8
+    ports:
+      - 5432:5432

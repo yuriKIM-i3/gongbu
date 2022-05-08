@@ -1,0 +1,14 @@
+version: '3.5'
+services:
+  gongbu_iac:
+    container_name: 'gongbu_iac'
+    build:
+      context: .
+    tty: true
+    volumes:
+      - /home/$USER/.aws:/root/.aws
+      - .:/root/gongbu_iac
+    working_dir: '/root/gongbu_iac'
+    entrypoint: /bin/bash
+    environment:
+      AWS_DEFAULT_REGION: ap-northeast-1
