@@ -40,8 +40,6 @@ out/
 application-dev.properties
 application-prd.properties
 
-### デプロイで作られた動的なアウトプットを省く ###
-build.zip
 
 # terraformの状態ファイルはpushしない
 */.terraform/*
