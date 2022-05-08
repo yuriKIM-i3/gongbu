@@ -12,7 +12,8 @@
                     "iam:PassedToService": [
                         "cloudformation.amazonaws.com",
                         "elasticbeanstalk.amazonaws.com",
-                        "ec2.amazonaws.com"
+                        "ec2.amazonaws.com",
+                        "ecs-tasks.amazonaws.com"
                     ]
                 }
             }
@@ -40,6 +41,18 @@
                 "arn:aws:s3:::${s3_codebuild_buildspec_id}",
                 "arn:aws:s3:::${s3_codebuild_buildspec_id}/*"
             ]
+        },
+        {
+            "Action": [
+                "codedeploy:CreateDeployment",
+                "codedeploy:GetApplication",
+                "codedeploy:GetApplicationRevision",
+                "codedeploy:GetDeployment",
+                "codedeploy:GetDeploymentConfig",
+                "codedeploy:RegisterApplicationRevision"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
         },
         {
             "Action": [

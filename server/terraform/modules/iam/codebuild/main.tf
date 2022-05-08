@@ -31,6 +31,25 @@ data "aws_iam_policy_document" "codebuild" {
       "${var.cw_logs_codebuild_arn}:*"
     ]
   }
+  statement {
+    effect    = "Allow"
+    actions   = [
+      "ecr:*"
+    ]
+    resources = [
+      "*"
+    ]
+  }
+  statement {
+    effect    = "Allow"
+    actions   = [
+      "ecs:ListTaskDefinitions",
+      "ecs:DescribeTaskDefinition"
+    ]
+    resources = [
+      "*"
+    ]
+  }
 }
 
 resource "aws_iam_role" "codebuild" {
