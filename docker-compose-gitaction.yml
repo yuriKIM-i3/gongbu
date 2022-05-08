@@ -6,9 +6,9 @@ services:
     build:
       context: .
     tty: true
-    working_dir: '/gitaction/test'
+    working_dir: '/gongbu/home'
     volumes:
-      - .:/gitaction/test
+      - .:/gongbu/home
     ports: 
       - "8080:8080"
     depends_on:

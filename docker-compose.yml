@@ -11,9 +11,9 @@ services:
         GID: $DOCKER_GID
         UNAME: $USER
     tty: true
-    working_dir: '/home/$USER/workspace'
+    working_dir: '/gongbu/home'
     volumes:
-      - .:/home/$USER/workspace:cached
+      - .:/gongbu/home:cached
     entrypoint: /bin/bash
     ports: 
       - "8080:8080"
