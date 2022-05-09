@@ -179,3 +179,8 @@ variable db_name {
   type = string
   default  = "gongbu_prd"
 }
+
+variable domain_name {
+  type = string
+  default  = "gongbu.jp"
+}
