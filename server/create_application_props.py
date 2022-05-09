@@ -8,6 +8,7 @@ app_env = {
     'spring.jpa.properties.hibernate.dialect' : 'SB_JPA_PROPERTIES_HIBERNATE_DIALECT',
     'spring.jpa.show-sql' : 'SB_JPA_SHOW_SQL',
     'server.port' : 'SERVER_PORT',
+    'server.ssl.enabled' : 'SERVER_SSL_ENABLED',
     'logging.config' : 'LOGGING_CONFIG',
     'spring.security.oauth2.client.registration.google.client-id' : 'GOOGLE_CLIENT_ID',
     'spring.security.oauth2.client.registration.google.client-secret' : 'GOOGLE_CLIENT_SECRET',
