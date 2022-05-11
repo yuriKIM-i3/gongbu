@@ -47,7 +47,7 @@ public class WordsApiController{
         model.addAttribute("result", wordsService.findByDeleteFlgZero(pageable));
         model.addAttribute("isSorted", GlobalVariable.FALSE);
 
-        return "/word/list";
+        return "word/list";
     }
 
     @GetMapping("/word/list/sort")
@@ -58,7 +58,7 @@ public class WordsApiController{
             model.addAttribute("sortedBy", sortedBy);
             model.addAttribute("isSorted", GlobalVariable.TRUE);
 
-            return "/word/list";
+            return "word/list";
         } else {
             return "error";
         }
@@ -77,13 +77,13 @@ public class WordsApiController{
     public String addWord(Model model, WordAddRequestDto wordAddRequestDto) {
         
         model.addAttribute("wordAddRequestDto", wordAddRequestDto);
-        return "/word/add";
+        return "word/add";
     }
 
     @PostMapping("/word/add")
     public String addWord(@Validated WordAddRequestDto wordAddRequestDto, BindingResult bindingResult, @LoginUser SessionUser user) {
         if (bindingResult.hasErrors()) {
-            return "/word/add";
+            return "word/add";
         }
 
         wordAddRequestDto.setUserId(user.getUserId());
@@ -97,7 +97,7 @@ public class WordsApiController{
         countUpWordHit(wordId, httpServletRequest, response);
         model.addAttribute("word", wordsService.findByWordId(wordId));
 
-        return "/word/read";
+        return "word/read";
     }
 
     @GetMapping("/word/edit/{wordId}")
@@ -112,13 +112,13 @@ public class WordsApiController{
 
         model.addAttribute("wordEditRequestDto", wordsService.findByWordId(wordId));
         
-        return "/word/edit";
+        return "word/edit";
     }
 
     @PostMapping("/word/edit")
     public String editWord(@Validated WordEditRequestDto wordEditRequestDto, BindingResult bindingResult, @LoginUser SessionUser user) {
         if (bindingResult.hasErrors()) {
-            return "/word/edit";
+            return "word/edit";
         }
         
         wordsService.edit(wordEditRequestDto);
