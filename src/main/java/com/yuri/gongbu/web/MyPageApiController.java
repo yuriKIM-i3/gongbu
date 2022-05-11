@@ -28,7 +28,7 @@ public class MyPageApiController{
     public String goMyPage(Model model, @LoginUser SessionUser user, @RequestParam(defaultValue = "1") Integer page) {
         PageRequest pageable = PageRequest.of(page - 1, GlobalVariable.MY_PAGE_WORD_PAGE_SIZE);
         model.addAttribute("result", wordsService.findMyWord(user.getUserId(), pageable));
-        return "/my_page/my_page";
+        return "my_page/my_page";
     }
 
     @GetMapping("/signOut")
