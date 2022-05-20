@@ -70,7 +70,7 @@ public class WordsApiController{
         model.addAttribute("result", wordsService.findByDeleteFlgAndWordNameLike(requestDto.getKeyword(), pageable));
         model.addAttribute("requestDto", requestDto);
 
-        return "/word/list_search";
+        return "word/list_search";
     }
 
     @GetMapping("/word/add")
