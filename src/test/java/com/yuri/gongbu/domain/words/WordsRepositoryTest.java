@@ -1,7 +1,8 @@
 package com.yuri.gongbu.domain.words;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,8 @@ public class WordsRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
-    @BeforeEach
-    public void setup() {
+    @BeforeAll
+    static void setup(@Autowired UserRepository userRepository) {
         userRepository.save(User.builder()
             .userName("yuriSAMA")
             .userEmail("y")
@@ -36,35 +37,77 @@ public class WordsRepositoryTest {
             .build());
     }
 
-    @Test
-    public void insert_word() {
-        //when
+    @BeforeEach
+    void insertWord() {
         int userId = userRepository.findFirstByOrderByUserIdDesc().getUserId();
-        String wordName = "mbti";
-        String wordPronunciation = "엠비티아이";
-        String wordMeaning = "사기";
-        
+        String wordName = "test-word";
+        String wordPronunciation = "this is test word";
+        String wordMeaning = "test-meaning";
+
         wordsRepository.save(Words.builder()
                                     .userId(userId)
                                     .wordName(wordName)
                                     .wordPronunciation(wordPronunciation)    
                                     .wordMeaning(wordMeaning)         
-                                    .wordExample("엠비티아이 검사 했어?")
+                                    .wordExample("did you do your test?")
                                     .wordHits(3)
                                     .wordLike(3)
-                                    .deleteFlg(1)
+                                    .deleteFlg(0)
                                     .build());
+    }
+
+    @Test
+    public void hasInsertedWord() {
         //when
+        String wordName = "test-word";
+        String wordPronunciation = "this is test word";
+        String wordMeaning = "test-meaning";
         List<Words> list = wordsRepository.findAll();
 
         //then
-        Words words = list.get(0);
-        assertEquals(words.getWordName(), wordName);
-        assertEquals(words.getWordMeaning(), wordMeaning);
+        Words word = list.get(0);
+        assertEquals(word.getWordName(), wordName);
+        assertEquals(word.getWordMeaning(), wordMeaning);
     }
 
-    @AfterEach
-    public void cleanup() {
+    @Test
+    public void updateWord() {
+        //given
+        String wordName = "test-word-update";
+        String wordPronunciation = "test-pronunciation-update";
+        String wordMeaning = "test-meaning-update";
+        String wordExample = "did you update your test code?";
+
+        List<Words> originalWordList = wordsRepository.findAll();
+        Words word = originalWordList.get(0);
+
+        //when
+        word.update(wordName, wordPronunciation, wordMeaning, wordExample);
+        List<Words> editedWordList = wordsRepository.findAll();
+        word = editedWordList.get(0);
+
+        //then
+        assertEquals(word.getWordName(), wordName);
+        assertEquals(word.getWordPronunciation(), wordPronunciation);
+        assertEquals(word.getWordMeaning(), wordMeaning);
+        assertEquals(word.getWordExample(), wordExample);
+    }
+
+    @Test
+    public void deleteWord() {
+        //given
+        List<Words> originalWordList = wordsRepository.findAll();
+        Words word = originalWordList.get(0);
+
+        //when
+        word.delete();
+
+        //then
+        assertEquals(word.getDeleteFlg(), GlobalVariable.TRUE);
+    }
+
+    @AfterAll
+    static void cleanUp(@Autowired WordsRepository wordsRepository, @Autowired UserRepository userRepository) {
         wordsRepository.deleteAll();
         userRepository.deleteAll();
     }
