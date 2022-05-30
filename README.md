@@ -20,7 +20,7 @@ https://gongbu.jp/
 - Docker 20.10.11
 - Docker Compose 1.29.2
 
-## ヴァージョン情報
+## バージョン情報
 - Spring Boot 2.6.7
 - Gradle 7.2.0
 - Java 16.0.1
