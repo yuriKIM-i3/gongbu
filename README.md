@@ -5,9 +5,9 @@ https://gongbu.jp/
 ## 공부(コンブ)を作ったきっかけ
 仕事で携わってない技術を使ってみたかったので、공부(コンブ)を作ることになりました。<br>
 今の仕事ではEOLを迎えたフレームワークで開発し、テストケースをエクセルに書いて人がアプリケーションを動きながらテストを行います。<br>
-そんな中、CI_CDについて分かるようになり、すごく便利で、人を楽にさせるものだなという印象を受けました。<br>
+そんな中、CI/CDについて分かるようになり、すごく便利で、人を楽にさせるものだなという印象を受けました。<br>
 そして「自らやってみたい！」と思いました。<br>
-そのため、テストコードの作成、CI_CDによるサイトの運営に日々精進してまいります。💪
+そのため、テストコードの作成、CI/CDによるサイトの運営に日々精進してまいります。💪
 
 ## 공부(コンブ)の特徴
 - oauth2を使用したgoogle、またはLINEアカウントでソーシャルログインが可能
@@ -19,6 +19,8 @@ https://gongbu.jp/
 - Linux(Kali 5.10.0)
 - Docker 20.10.11
 - Docker Compose 1.29.2
+
+## ヴァージョン情報
 - Spring Boot 2.6.7
 - Gradle 7.2.0
 - Java 16.0.1
@@ -35,7 +37,7 @@ https://gongbu.jp/
 2. インフラ構築
    - ステータス：完了
    - 実施期間：2022/04中旬~2022/05中旬
-   - 作業内容：github actionとaws codepipeline(code build, code deploy)でCI_CD環境を整える、aws ecsでアプリケーションが入っているDocker コンテナを実行する
+   - 作業内容：github actionとaws codepipeline(code build, code deploy)でCI/CD環境を整える、aws ecsでアプリケーションが入っているDocker コンテナを実行する
    - インフラ構成図
    ![infra image](https://user-images.githubusercontent.com/44425582/169836756-9aa6c01e-a1d6-4028-8282-55d62b8ecbb9.png)
 3. phase2 
