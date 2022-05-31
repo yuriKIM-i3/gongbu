@@ -5,10 +5,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
 
 import com.yuri.gongbu.domain.words.WordsRepository;
 import com.yuri.gongbu.domain.words.Words;
@@ -16,6 +21,7 @@ import com.yuri.gongbu.domain.user.UserRepository;
 import com.yuri.gongbu.domain.user.User;
 import com.yuri.gongbu.domain.user.Role;
 import com.yuri.gongbu.global.GlobalVariable;
+import com.yuri.gongbu.web.dto.WordsListResponseDto;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -104,6 +110,50 @@ public class WordsRepositoryTest {
 
         //then
         assertEquals(word.getDeleteFlg(), GlobalVariable.TRUE);
+    }
+
+    @Test
+    public void searchWord() {
+        //given
+        String keyWord = "word";
+        PageRequest pageable = PageRequest.of(0, GlobalVariable.WORD_PAGE_SIZE);
+
+        //when
+        Page<Words> result = wordsRepository.findByDeleteFlgAndWordNameContaining(GlobalVariable.FALSE, keyWord, pageable);
+        List<WordsListResponseDto> wordList = result.stream().map(WordsListResponseDto::new).collect(Collectors.toList());
+
+        //then
+        assertTrue(wordList.get(0).getWordName().contains(keyWord));
+    }
+
+    @Test
+    public void countUpHits() {
+        //given
+        List<Words> wordList = wordsRepository.findAll();
+        Words words = wordList.get(0);
+        Integer beforeCount = words.getWordHits();
+
+        //when
+        words.countUpHits();
+
+        //then
+        Words result = wordsRepository.findAll().get(0);
+        assertEquals(result.getWordHits(), beforeCount + 1);
+    }
+
+    @Test
+    public void countUpLike() {
+        //given
+        List<Words> wordList = wordsRepository.findAll();
+        Words words = wordList.get(0);
+        Integer beforeCount = words.getWordLike();
+
+        //when
+        words.countUpLike();
+
+        //then
+        Words result = wordsRepository.findAll().get(0);
+        assertEquals(result.getWordLike(), beforeCount + 1);
     }
 
     @AfterAll
