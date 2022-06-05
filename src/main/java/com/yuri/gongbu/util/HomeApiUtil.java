@@ -14,8 +14,6 @@ import com.yuri.gongbu.global.GlobalVariable;
 
 public class HomeApiUtil {
 
-    List<Integer> postedWords = Collections.emptyList();
-
     public static String getWordRandom(List<WordHomeResponseDto> wordsList, List<Integer> postedWords) {
         List<Integer> wordsId = wordsList.stream().map(word -> word.getWordId()).collect(Collectors.toList());
         Random random = new Random();
