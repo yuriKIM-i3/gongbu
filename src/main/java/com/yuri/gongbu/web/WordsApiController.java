@@ -32,6 +32,7 @@ import com.yuri.gongbu.web.dto.WordEditRequestDto;
 import com.yuri.gongbu.web.dto.WordResponseDto;
 import com.yuri.gongbu.service.WordLikeService;
 import com.yuri.gongbu.web.dto.WordLikeAddRequestDto;
+import com.yuri.gongbu.util.WordsApiUtil;
 
 @RequiredArgsConstructor
 @Controller
@@ -94,7 +95,7 @@ public class WordsApiController{
     @GetMapping("/word/detail/{wordId}")
     public String readWord(@PathVariable Integer wordId, Model model, HttpServletRequest httpServletRequest, HttpServletResponse response) {
         
-        countUpWordHit(wordId, httpServletRequest, response);
+        WordsApiUtil.countUpWordHit(wordId, httpServletRequest, response, wordsService);
         model.addAttribute("word", wordsService.findByWordId(wordId));
 
         return "word/read";
@@ -105,7 +106,7 @@ public class WordsApiController{
 
         WordResponseDto wordResponseDto = wordsService.findByWordId(wordId);
 
-        if(!checkWordOwner(wordResponseDto, user)) {
+        if(!WordsApiUtil.checkWordOwner(wordResponseDto, user)) {
             model.addAttribute("errorMessege", GlobalVariable.INVALID_ACCESS);
             return "error";
         }
@@ -131,7 +132,7 @@ public class WordsApiController{
 
         WordResponseDto wordResponseDto = wordsService.findByWordId(wordId);
 
-        if(!checkWordOwner(wordResponseDto, user)) {
+        if(!WordsApiUtil.checkWordOwner(wordResponseDto, user)) {
             model.addAttribute("errorMessege", GlobalVariable.INVALID_ACCESS);
             return "error";
         }
@@ -155,40 +156,4 @@ public class WordsApiController{
 
         return "redirect:/word/detail/" + wordId;
     }
-
-    private void countUpWordHit(Integer wordId, HttpServletRequest request, HttpServletResponse response) {
-
-        String cookieValue = Integer.toString(wordId);
-        Cookie[] cookies = request.getCookies();
-        Cookie oldCookie = null;
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("wordId")) {
-                    oldCookie = cookie;
-                }
-            }
-        }
-
-        if (oldCookie != null) {
-            if (!oldCookie.getValue().contains("[" + cookieValue + "]")) {
-                wordsService.countUpWordHit(wordId);
-
-                oldCookie.setValue(oldCookie.getValue() + "_[" + cookieValue + "]");
-                oldCookie.setPath("/");
-                oldCookie.setMaxAge(GlobalVariable.COOKIE_MAX_AGE);
-                response.addCookie(oldCookie);
-            }
-        } else {
-            wordsService.countUpWordHit(wordId);
-
-            Cookie newCookie = new Cookie("wordId", "[" + cookieValue + "]");
-            newCookie.setPath("/");
-            newCookie.setMaxAge(GlobalVariable.COOKIE_MAX_AGE);
-            response.addCookie(newCookie);
-        }
-    }
-
-    private boolean checkWordOwner(WordResponseDto wordResponseDto, SessionUser user) {
-        return wordResponseDto.getUserId().equals(user.getUserId());
-    } 
 }
