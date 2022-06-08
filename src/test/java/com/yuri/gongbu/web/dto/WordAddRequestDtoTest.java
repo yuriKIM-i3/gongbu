@@ -11,13 +11,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.io.StringWriter;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 
 import com.yuri.gongbu.web.dto.WordAddRequestDto;
 import com.yuri.gongbu.global.GlobalVariable;
 
 @SpringBootTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class WordAddRequestDtoTest {
 
     @Autowired
@@ -34,7 +32,7 @@ public class WordAddRequestDtoTest {
     }
 
     @Test
-    public void wordNameInputNull() {
+    public void wordNameInputNull() throws Exception {
         // given
         wordAddRequestDto.setWordName(null);
         // when
@@ -44,7 +42,7 @@ public class WordAddRequestDtoTest {
     }
 
     @Test
-    public void wordNameUptoMaxLength() {
+    public void wordNameUptoMaxLength() throws Exception {
         // given
         String wordName =  new StringWriter(){{ for(int i=0;i<GlobalVariable.WORD_NAME_MAX_LENGTH;i++) write("a"); }}.toString();
         wordAddRequestDto.setWordName(wordName);
@@ -55,7 +53,7 @@ public class WordAddRequestDtoTest {
     }
 
     @Test
-    public void wordNameOverMaxLength() {
+    public void wordNameOverMaxLength() throws Exception {
         // given
         String wordName =  new StringWriter(){{ for(int i=0;i<GlobalVariable.WORD_NAME_MAX_LENGTH + 1;i++) write("a"); }}.toString();
         wordAddRequestDto.setWordName(wordName);
@@ -66,7 +64,7 @@ public class WordAddRequestDtoTest {
     }
 
     @Test
-    public void wordPronunciationInputNull() {
+    public void wordPronunciationInputNull() throws Exception {
         // given
         wordAddRequestDto.setWordPronunciation(null);
         // when
@@ -76,7 +74,7 @@ public class WordAddRequestDtoTest {
     }
 
     @Test
-    public void wordPronunciationUptoMaxLength() {
+    public void wordPronunciationUptoMaxLength() throws Exception {
         // given
         String wordPronunciation =  new StringWriter(){{ for(int i=0;i<GlobalVariable.WORD_PRONUNCIATION_MAX_LENGTH;i++) write("a"); }}.toString();
         wordAddRequestDto.setWordPronunciation(wordPronunciation);
@@ -87,7 +85,7 @@ public class WordAddRequestDtoTest {
     }
 
     @Test
-    public void wordPronunciationOverMaxLength() {
+    public void wordPronunciationOverMaxLength() throws Exception {
         // given
         String wordPronunciation =  new StringWriter(){{ for(int i=0;i<GlobalVariable.WORD_PRONUNCIATION_MAX_LENGTH + 1;i++) write("a"); }}.toString();
         wordAddRequestDto.setWordPronunciation(wordPronunciation);
@@ -98,7 +96,7 @@ public class WordAddRequestDtoTest {
     }
 
     @Test
-    public void wordMeaningInputNull() {
+    public void wordMeaningInputNull() throws Exception {
         // given
         wordAddRequestDto.setWordMeaning(null);
         // when
@@ -108,7 +106,7 @@ public class WordAddRequestDtoTest {
     }
 
     @Test
-    public void wordMeaningUptoMaxLength() {
+    public void wordMeaningUptoMaxLength() throws Exception {
         // given
         String wordMeaning=  new StringWriter(){{ for(int i=0;i<GlobalVariable.WORD_MEANING_MAX_LENGTH;i++) write("a"); }}.toString();
         wordAddRequestDto.setWordMeaning(wordMeaning);
@@ -119,7 +117,7 @@ public class WordAddRequestDtoTest {
     }
 
     @Test
-    public void wordMeaningOverMaxLength() {
+    public void wordMeaningOverMaxLength() throws Exception {
         // given
         String wordMeaning=  new StringWriter(){{ for(int i=0;i<GlobalVariable.WORD_MEANING_MAX_LENGTH + 1;i++) write("a"); }}.toString();
         wordAddRequestDto.setWordMeaning(wordMeaning);
@@ -130,7 +128,7 @@ public class WordAddRequestDtoTest {
     }
 
     @Test
-    public void wordExampleUptoMaxLength() {
+    public void wordExampleUptoMaxLength() throws Exception {
         // given
         String wordExample=  new StringWriter(){{ for(int i=0;i<GlobalVariable.WORD_EXAMPLE_MAX_LENGTH;i++) write("a"); }}.toString();
         wordAddRequestDto.setWordExample(wordExample);
@@ -141,7 +139,7 @@ public class WordAddRequestDtoTest {
     }
 
     @Test
-    public void wordExampleOverMaxLength() {
+    public void wordExampleOverMaxLength() throws Exception {
         // given
         String wordExample=  new StringWriter(){{ for(int i=0;i<GlobalVariable.WORD_EXAMPLE_MAX_LENGTH + 1;i++) write("a"); }}.toString();
         wordAddRequestDto.setWordExample(wordExample);
