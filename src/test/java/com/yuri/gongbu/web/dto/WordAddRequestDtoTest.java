@@ -11,6 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.io.StringWriter;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import com.yuri.gongbu.web.dto.WordAddRequestDto;
 import com.yuri.gongbu.global.GlobalVariable;
@@ -32,13 +33,17 @@ public class WordAddRequestDtoTest {
     }
 
     @Test
-    public void wordNameInputNull() throws Exception {
-        // given
-        wordAddRequestDto.setWordName(null);
-        // when
-        validator.validate(wordAddRequestDto, bindingResult);
-        // then
-        assertNotNull(bindingResult.getFieldError());
+    public void wordNameInputNull() {
+        try {
+            // given
+            wordAddRequestDto.setWordName(null);
+            // when
+            validator.validate(wordAddRequestDto, bindingResult);
+            // then
+            assertNotNull(bindingResult.getFieldError());
+        } catch(NoSuchBeanDefinitionException e) {
+            System.out.println("look at this" + e.getBeanName());
+        }
     }
 
     @Test
