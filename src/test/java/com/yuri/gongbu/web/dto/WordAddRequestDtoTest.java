@@ -37,10 +37,9 @@ public class WordAddRequestDtoTest {
         // given
         wordAddRequestDto.setWordName(null);
         // when
-        //validator.validate(wordAddRequestDto, bindingResult);
+        validator.validate(wordAddRequestDto, bindingResult);
         // then
-        // assertNotNull(bindingResult.getFieldError());
-        assertNotNull("bindingResult.getFieldError()");
+        assertNotNull(bindingResult.getFieldError());
     }
 
     // @Disabled
