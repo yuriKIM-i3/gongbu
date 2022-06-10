@@ -9,7 +9,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-
+      with:
+        spring.security.oauth2.client.registration.google.client-secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+        spring.security.oauth2.client.registration.google.client-id: ${{ secrets.GOOGLE_CLIENT_ID }}
+        spring.security.oauth2.client.registration.line.client-secret: ${{ secrets.LINE_CLIENT_SECRET }}
+        spring.security.oauth2.client.registration.line.client-secret: ${{ secrets.LINE_CLIENT_ID }}
     - run: docker-compose -f docker-compose-gitaction.yml build
     - run: docker-compose -f docker-compose-gitaction.yml up --abort-on-container-exit
 
