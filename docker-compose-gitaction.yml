@@ -19,6 +19,10 @@ services:
       - FLYWAY_USER=gongbu
       - FLYWAY_PASSWORD=gongbu
       - FLYWAY_LOCATIONS=filesystem:src/main/resources/db/migration
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - LINE_CLIENT_SECRET=${LINE_CLIENT_SECRET}
+      - LINE_CLIENT_ID=${LINE_CLIENT_ID}
     entrypoint: |
       bash -e -c "
       flyway migrate
