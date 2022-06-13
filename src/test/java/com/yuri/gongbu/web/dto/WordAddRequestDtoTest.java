@@ -85,7 +85,6 @@ public class WordAddRequestDtoTest {
         assertNull(bindingResult.getFieldError());
     }
 
-    @Disabled
     @Test
     void wordPronunciationOverMaxLength() throws Exception {
         // given
