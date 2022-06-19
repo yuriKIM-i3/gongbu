@@ -7,6 +7,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterAll;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -14,6 +15,8 @@ import java.io.StringWriter;
 
 import com.yuri.gongbu.web.dto.WordAddRequestDto;
 import com.yuri.gongbu.global.GlobalVariable;
+import com.yuri.gongbu.domain.user.UserRepository;
+import com.yuri.gongbu.domain.words.WordsRepository;
 
 @SpringBootTest
 public class WordAddRequestDtoTest {
@@ -148,6 +151,12 @@ public class WordAddRequestDtoTest {
         validator.validate(wordAddRequestDto, bindingResult);
         // then
         assertNotNull(bindingResult.getFieldError());
+    }
+
+    @AfterAll
+    static void cleanUp(@Autowired WordsRepository wordsRepository, @Autowired UserRepository userRepository) {
+        wordsRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     private String createString(int length) {
