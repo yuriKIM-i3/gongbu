@@ -45,7 +45,7 @@ public class WordAddRequestDtoTest {
     @Test
     void wordNameUptoMaxLength() throws Exception {
         // given
-        String wordName =  new StringWriter(){{ for(int i=0;i<GlobalVariable.WORD_NAME_MAX_LENGTH;i++) write("a"); }}.toString();
+        String wordName = createString(GlobalVariable.WORD_NAME_MAX_LENGTH);
         wordAddRequestDto.setWordName(wordName);
         // when
         validator.validate(wordAddRequestDto, bindingResult);
@@ -56,7 +56,7 @@ public class WordAddRequestDtoTest {
     @Test
     void wordNameOverMaxLength() throws Exception {
         // given
-        String wordName =  new StringWriter(){{ for(int i=0;i<GlobalVariable.WORD_NAME_MAX_LENGTH + 1;i++) write("a"); }}.toString();
+        String wordName = createString(GlobalVariable.WORD_NAME_MAX_LENGTH + 1);
         wordAddRequestDto.setWordName(wordName);
         // when
         validator.validate(wordAddRequestDto, bindingResult);
@@ -77,7 +77,7 @@ public class WordAddRequestDtoTest {
     @Test
     void wordPronunciationUptoMaxLength() throws Exception {
         // given
-        String wordPronunciation =  new StringWriter(){{ for(int i=0;i<GlobalVariable.WORD_PRONUNCIATION_MAX_LENGTH;i++) write("a"); }}.toString();
+        String wordPronunciation = createString(GlobalVariable.WORD_PRONUNCIATION_MAX_LENGTH);
         wordAddRequestDto.setWordPronunciation(wordPronunciation);
         // when
         validator.validate(wordAddRequestDto, bindingResult);
@@ -88,7 +88,7 @@ public class WordAddRequestDtoTest {
     @Test
     void wordPronunciationOverMaxLength() throws Exception {
         // given
-        String wordPronunciation =  new StringWriter(){{ for(int i=0;i<GlobalVariable.WORD_PRONUNCIATION_MAX_LENGTH + 1;i++) write("a"); }}.toString();
+        String wordPronunciation = createString(GlobalVariable.WORD_PRONUNCIATION_MAX_LENGTH + 1);
         wordAddRequestDto.setWordPronunciation(wordPronunciation);
         // when
         validator.validate(wordAddRequestDto, bindingResult);
@@ -109,7 +109,7 @@ public class WordAddRequestDtoTest {
     @Test
     void wordMeaningUptoMaxLength() throws Exception {
         // given
-        String wordMeaning=  new StringWriter(){{ for(int i=0;i<GlobalVariable.WORD_MEANING_MAX_LENGTH;i++) write("a"); }}.toString();
+        String wordMeaning = createString(GlobalVariable.WORD_MEANING_MAX_LENGTH);
         wordAddRequestDto.setWordMeaning(wordMeaning);
         // when
         validator.validate(wordAddRequestDto, bindingResult);
@@ -120,7 +120,7 @@ public class WordAddRequestDtoTest {
     @Test
     public void wordMeaningOverMaxLength() throws Exception {
         // given
-        String wordMeaning=  new StringWriter(){{ for(int i=0;i<GlobalVariable.WORD_MEANING_MAX_LENGTH + 1;i++) write("a"); }}.toString();
+        String wordMeaning = createString(GlobalVariable.WORD_MEANING_MAX_LENGTH + 1);
         wordAddRequestDto.setWordMeaning(wordMeaning);
         // when
         validator.validate(wordAddRequestDto, bindingResult);
@@ -131,7 +131,7 @@ public class WordAddRequestDtoTest {
     @Test
     public void wordExampleUptoMaxLength() throws Exception {
         // given
-        String wordExample=  new StringWriter(){{ for(int i=0;i<GlobalVariable.WORD_EXAMPLE_MAX_LENGTH;i++) write("a"); }}.toString();
+        String wordExample=  createString(GlobalVariable.WORD_EXAMPLE_MAX_LENGTH);
         wordAddRequestDto.setWordExample(wordExample);
         // when
         validator.validate(wordAddRequestDto, bindingResult);
@@ -142,11 +142,15 @@ public class WordAddRequestDtoTest {
     @Test
     public void wordExampleOverMaxLength() throws Exception {
         // given
-        String wordExample=  new StringWriter(){{ for(int i=0;i<GlobalVariable.WORD_EXAMPLE_MAX_LENGTH + 1;i++) write("a"); }}.toString();
+        String wordExample = createString(GlobalVariable.WORD_EXAMPLE_MAX_LENGTH + 1);
         wordAddRequestDto.setWordExample(wordExample);
         // when
         validator.validate(wordAddRequestDto, bindingResult);
         // then
         assertNotNull(bindingResult.getFieldError());
+    }
+
+    private String createString(int length) {
+        return new StringWriter(){{ for(int i=0;i < length;i++) write("a"); }}.toString();
     }
 }
