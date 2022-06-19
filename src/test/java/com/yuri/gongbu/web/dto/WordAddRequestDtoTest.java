@@ -43,7 +43,7 @@ public class WordAddRequestDtoTest {
 
 
     @Test
-    void wordNameUptoMaxLength() throws Exception {
+    void wordNameUptoMaxLength() {
         // given
         String wordName = createString(GlobalVariable.WORD_NAME_MAX_LENGTH);
         wordAddRequestDto.setWordName(wordName);
@@ -54,7 +54,7 @@ public class WordAddRequestDtoTest {
     }
 
     @Test
-    void wordNameOverMaxLength() throws Exception {
+    void wordNameOverMaxLength() {
         // given
         String wordName = createString(GlobalVariable.WORD_NAME_MAX_LENGTH + 1);
         wordAddRequestDto.setWordName(wordName);
@@ -65,7 +65,7 @@ public class WordAddRequestDtoTest {
     }
 
     @Test
-    void wordPronunciationInputNull() throws Exception {
+    void wordPronunciationInputNull() {
         // given
         wordAddRequestDto.setWordPronunciation(null);
         // when
@@ -75,7 +75,7 @@ public class WordAddRequestDtoTest {
     }
 
     @Test
-    void wordPronunciationUptoMaxLength() throws Exception {
+    void wordPronunciationUptoMaxLength() {
         // given
         String wordPronunciation = createString(GlobalVariable.WORD_PRONUNCIATION_MAX_LENGTH);
         wordAddRequestDto.setWordPronunciation(wordPronunciation);
@@ -86,7 +86,7 @@ public class WordAddRequestDtoTest {
     }
 
     @Test
-    void wordPronunciationOverMaxLength() throws Exception {
+    void wordPronunciationOverMaxLength() {
         // given
         String wordPronunciation = createString(GlobalVariable.WORD_PRONUNCIATION_MAX_LENGTH + 1);
         wordAddRequestDto.setWordPronunciation(wordPronunciation);
@@ -97,7 +97,7 @@ public class WordAddRequestDtoTest {
     }
 
     @Test
-    void wordMeaningInputNull() throws Exception {
+    void wordMeaningInputNull() {
         // given
         wordAddRequestDto.setWordMeaning(null);
         // when
@@ -107,7 +107,7 @@ public class WordAddRequestDtoTest {
     }
 
     @Test
-    void wordMeaningUptoMaxLength() throws Exception {
+    void wordMeaningUptoMaxLength() {
         // given
         String wordMeaning = createString(GlobalVariable.WORD_MEANING_MAX_LENGTH);
         wordAddRequestDto.setWordMeaning(wordMeaning);
@@ -118,7 +118,7 @@ public class WordAddRequestDtoTest {
     }
 
     @Test
-    public void wordMeaningOverMaxLength() throws Exception {
+    public void wordMeaningOverMaxLength() {
         // given
         String wordMeaning = createString(GlobalVariable.WORD_MEANING_MAX_LENGTH + 1);
         wordAddRequestDto.setWordMeaning(wordMeaning);
@@ -129,7 +129,7 @@ public class WordAddRequestDtoTest {
     }
 
     @Test
-    public void wordExampleUptoMaxLength() throws Exception {
+    public void wordExampleUptoMaxLength() {
         // given
         String wordExample=  createString(GlobalVariable.WORD_EXAMPLE_MAX_LENGTH);
         wordAddRequestDto.setWordExample(wordExample);
@@ -140,7 +140,7 @@ public class WordAddRequestDtoTest {
     }
 
     @Test
-    public void wordExampleOverMaxLength() throws Exception {
+    public void wordExampleOverMaxLength() {
         // given
         String wordExample = createString(GlobalVariable.WORD_EXAMPLE_MAX_LENGTH + 1);
         wordAddRequestDto.setWordExample(wordExample);
