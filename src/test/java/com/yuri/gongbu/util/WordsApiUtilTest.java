@@ -68,9 +68,11 @@ public class WordsApiUtilTest {
         User user2 = users.get(1);
         SessionUser sessionUser1 = new SessionUser(user1);
         SessionUser sessionUser2 = new SessionUser(user2);
+
         // when
         boolean isWriter = WordsApiUtil.checkWordOwner(wordResponseDto, sessionUser1);
         boolean isNotWriter = WordsApiUtil.checkWordOwner(wordResponseDto, sessionUser2);
+
         // then
         assertTrue(isWriter);
         assertFalse(isNotWriter);
