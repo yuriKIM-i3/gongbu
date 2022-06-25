@@ -11,10 +11,24 @@ jobs:
       GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
       LINE_CLIENT_SECRET: ${{ secrets.LINE_CLIENT_SECRET }}
       LINE_CLIENT_ID: ${{ secrets.LINE_CLIENT_ID }}
+      LOCALSTACK_CACHE_PATH: localstack-image
     steps:
     - uses: actions/checkout@v2
 
-    - run: docker-compose -f docker-compose-gitaction.yml build
+    - name: Cache a LocalStack Docker image
+      id: cache-docker-images
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.LOCALSTACK_CACHE_PATH }}
+        key: ${{ runner.os }}-github-actions
+
+    - name: Pull and save a LocalStack Docker image
+      if: steps.cache-localstack.outputs.cache-hit != 'true'
+      run: |
+        docker-compose -f docker-compose-gitaction.yml build
+        docker save $(docker images --format '{{.Repository}}:{{.Tag}}') -o ${LOCALSTACK_CACHE_PATH}
+
+    - run: docker load -i ${LOCALSTACK_CACHE_PATH}
     - run: docker-compose -f docker-compose-gitaction.yml up --abort-on-container-exit
 
   s3_cp_for_aws_codepipeline:
