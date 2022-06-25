@@ -26,6 +26,7 @@ jobs:
       if: steps.cache-localstack.outputs.cache-hit != 'true'
       run: |
         docker-compose -f docker-compose-gitaction.yml build
+        docker images --format '{{.Repository}}:{{.Tag}}'
         docker save $(docker images --format '{{.Repository}}:{{.Tag}}') -o ${LOCALSTACK_CACHE_PATH}
 
     - run: docker load -i ${LOCALSTACK_CACHE_PATH}
