@@ -31,9 +31,9 @@ public class MyPageApiController{
         return "my_page/my_page";
     }
 
-    @GetMapping("/signOut")
-    public String signOut(@LoginUser SessionUser user, HttpServletRequest request) {
-        userService.signOut(user.getUserId());
+    @GetMapping("/withdrawal")
+    public String withdrawal(@LoginUser SessionUser user, HttpServletRequest request) {
+        userService.withdrawal(user.getUserId());
         HttpSession session = request.getSession(false);
         session.invalidate();
 
