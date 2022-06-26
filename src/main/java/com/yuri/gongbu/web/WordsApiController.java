@@ -55,7 +55,7 @@ public class WordsApiController{
     public String showWordsSortedBy(@RequestParam(defaultValue = "1") Integer page, @RequestParam("sort") String sortedBy, Model model) {
         if (GlobalVariable.sorts.contains(sortedBy)) {
             PageRequest pageable = PageRequest.of(page - 1, GlobalVariable.WORD_PAGE_SIZE, Sort.by(Sort.Direction.DESC, sortedBy));
-            model.addAttribute("result", wordsService.findByDeleteFlgZero(pageable));
+            model.addAttribute("result", wordsService.getSortedWords(pageable));
             model.addAttribute("sortedBy", sortedBy);
             model.addAttribute("isSorted", GlobalVariable.TRUE);
 
