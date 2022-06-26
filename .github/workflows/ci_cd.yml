@@ -11,25 +11,25 @@ jobs:
       GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
       LINE_CLIENT_SECRET: ${{ secrets.LINE_CLIENT_SECRET }}
       LINE_CLIENT_ID: ${{ secrets.LINE_CLIENT_ID }}
-      LOCALSTACK_CACHE_PATH: localstack-image
+      DOCKER_IMAGES_FOR_CI_CACHE_PATH: docker-images
     steps:
     - uses: actions/checkout@v2
 
-    - name: Cache a LocalStack Docker image
+    - name: Cache Docker images for CI
       id: cache-docker-images
       uses: actions/cache@v2
       with:
-        path: ${{ env.LOCALSTACK_CACHE_PATH }}
+        path: ${{ env.DOCKER_IMAGES_FOR_CI_CACHE_PATH }}
         key: ${{ runner.os }}-github-actions
 
-    - name: Pull and save a LocalStack Docker image
+    - name: Pull and save Docker images for CI
       if: steps.cache-docker-images.outputs.cache-hit != 'true'
       run: |
         docker-compose -f docker-compose-gitaction.yml build
         docker images --format '{{.Repository}}:{{.Tag}}'
-        docker save $(docker images --format '{{.Repository}}:{{.Tag}}') -o ${LOCALSTACK_CACHE_PATH}
+        docker save $(docker images --format '{{.Repository}}:{{.Tag}}') -o ${DOCKER_IMAGES_FOR_CI_CACHE_PATH}
 
-    - run: docker load -i ${LOCALSTACK_CACHE_PATH}
+    - run: docker load -i ${DOCKER_IMAGES_FOR_CI_CACHE_PATH}
     - run: docker-compose -f docker-compose-gitaction.yml up --abort-on-container-exit
 
   s3_cp_for_aws_codepipeline:
