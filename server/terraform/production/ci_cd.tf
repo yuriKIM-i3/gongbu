@@ -173,6 +173,14 @@ resource "aws_codebuild_project" "main" {
       value = aws_ssm_parameter.global_values["server_port"].value
     }
     environment_variable {
+      name = "SERVER_TOMCAT_REMOTE_IP_HEADER"
+      value = aws_ssm_parameter.global_values["server_tomcat_remote_ip_header"].value
+    }
+    environment_variable {
+      name = "SERVER_TOMCAT_PROTOCOL_HEADER"
+      value = aws_ssm_parameter.global_values["server_tomcat_protocol_header"].value
+    }
+    environment_variable {
       name = "LOGGING_CONFIG"
       value = aws_ssm_parameter.global_values["logging_config"].value
     }
