@@ -64,7 +64,7 @@ public class User extends BaseTimeEntity{
         return this.userRole.getKey();
     }
 
-    public void signOut() {
+    public void withdrawal() {
         this.deleteFlg = GlobalVariable.TRUE;
     }
 }

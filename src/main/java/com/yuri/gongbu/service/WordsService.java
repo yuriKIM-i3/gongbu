@@ -34,6 +34,12 @@ public class WordsService {
         return convertWordsForPagination(result);
     }
 
+    public Map<String, Object> getSortedWords(Pageable pageable) {
+        Page<Words> result = wordsRepository.findByDeleteFlg(GlobalVariable.FALSE, pageable);
+
+        return convertWordsForPagination(result);
+    }
+
     public Map<String, Object> findByDeleteFlgAndWordNameLike(String keyWord, Pageable pageable) {
         Page<Words> result = wordsRepository.findByDeleteFlgAndWordNameContaining(GlobalVariable.FALSE, keyWord, pageable);
 
