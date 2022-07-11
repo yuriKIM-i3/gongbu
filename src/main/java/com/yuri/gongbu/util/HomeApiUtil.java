@@ -17,20 +17,20 @@ public class HomeApiUtil {
     public static String getWordRandom(List<WordHomeResponseDto> wordsList, List<Integer> postedWords) {
         List<Integer> wordsId = wordsList.stream().map(word -> word.getWordId()).collect(Collectors.toList());
         Random random = new Random();
-        int randomWordId = random.nextInt(wordsId.size());
+        int randomWordId = wordsId.get(random.nextInt(wordsId.size()));
 
         if (postedWords.size() == GlobalVariable.POSTED_WORDS_MAX_SIZE) {
             postedWords.removeAll(postedWords);
         }
 
-        while (postedWords.contains(randomWordId)){
-            randomWordId = random.nextInt(wordsId.size());
+        while (postedWords.size() > GlobalVariable.POSTED_WORDS_MAX_SIZE && postedWords.contains(randomWordId)){
+            randomWordId = wordsId.get(random.nextInt(wordsId.size()));
         }
         postedWords.add(randomWordId);
 
         WordHomeResponseDto randomWord = null;
         for (WordHomeResponseDto dto : wordsList) {
-            if(dto.getWordId() == wordsList.get(randomWordId).getWordId()){
+            if(dto.getWordId() == randomWordId){
                 randomWord = dto;
             }
         }
