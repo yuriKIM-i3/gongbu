@@ -45,6 +45,16 @@ variable server_port {
   default  = ""
 }
 
+variable server_tomcat_remote_ip_header {
+  type = string
+  default  = ""
+}
+
+variable server_tomcat_protocol_header {
+  type = string
+  default  = ""
+}
+
 variable logging_config {
   type = string
   default  = ""
@@ -144,6 +154,8 @@ locals {
     sb_jpa_properties_hibernate_dialect = var.sb_jpa_properties_hibernate_dialect 
     sb_jpa_show_sql = var.sb_jpa_show_sql
     server_port = var.server_port
+    server_tomcat_remote_ip_header = var.server_tomcat_remote_ip_header
+    server_tomcat_protocol_header = var.server_tomcat_protocol_header
     logging_config = var.logging_config
     google_client_id = var.google_client_id
     google_client_secret = var.google_client_secret
@@ -178,4 +190,9 @@ variable vpc_cidr {
 variable db_name {
   type = string
   default  = "gongbu_prd"
+}
+
+variable domain_name {
+  type = string
+  default  = "gongbu.jp"
 }

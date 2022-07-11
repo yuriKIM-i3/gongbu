@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import com.yuri.gongbu.service.WordsService;
 import com.yuri.gongbu.web.dto.WordHomeResponseDto;
 import com.yuri.gongbu.global.GlobalVariable;
+import com.yuri.gongbu.util.HomeApiUtil;
 
 @RequiredArgsConstructor
 @Controller
@@ -38,29 +39,8 @@ public class HomeApiController{
 
     @GetMapping("/word/random")
     @ResponseBody
-    public String getWordRandom() {
-        List<WordHomeResponseDto> wordsList = wordsService.getAllWords();
-        List<Integer> wordsId = wordsList.stream().map(id -> id.getWordId()).collect(Collectors.toList());
-        Random random = new Random();
-        int randomValue = random.nextInt(wordsId.size());
-
-        if (postedWords.size() == GlobalVariable.POSTED_WORDS_MAX_SIZE) {
-            // 表示して1分が経ったことばは再表示できるようにする
-            postedWords.remove(0);
-        }
-        while (postedWords.contains(randomValue)){
-            randomValue = random.nextInt(wordsId.size());
-        }
-        postedWords.add(randomValue);
-
-        WordHomeResponseDto randomWord = null;
-        for (WordHomeResponseDto dto : wordsList) {
-            if(dto.getWordId() == wordsList.get(randomValue).getWordId()){
-                randomWord = dto;
-            }
-        }
-        
-        return getJson(randomWord);
+    public String showRandomWord() {
+        return HomeApiUtil.getWordRandom(wordsService.getAllWords(), postedWords);
     }
 
     @GetMapping("/about")
@@ -72,16 +52,5 @@ public class HomeApiController{
     @ResponseBody
     public String checkHeathy() {
         return "I'm healthy!";
-    }
-
-    private String getJson(WordHomeResponseDto dto){
-        String retVal = null;
-        ObjectMapper objectMapper = new ObjectMapper();
-        try{
-            retVal = objectMapper.writeValueAsString(dto);
-        } catch (JsonProcessingException e) {
-            System.err.println(e);
-        }
-        return retVal;
     }
 }

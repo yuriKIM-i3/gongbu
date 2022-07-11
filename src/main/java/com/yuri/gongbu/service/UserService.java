@@ -15,9 +15,9 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void signOut(Integer userId) {
+    public void withdrawal(Integer userId) {
         User user = userRepository.findByUserIdAndDeleteFlg(userId, GlobalVariable.FALSE);
-        user.signOut();
+        user.withdrawal();
     }
     
 }
