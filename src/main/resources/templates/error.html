@@ -1,9 +1,16 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="~{layout/layout}">
-  <th:block layout:fragment="content">
-    <div class="content rounded">
-      <h1>Error!</h1>
-      <div class="alert alert-danger" role="alert" th:text="${errorMessege}"></div>
-    </div>
-  </th:block>  
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+  <th:block th:replace="fragments/config :: config"></th:block>
+  <head>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+  </head>
+  <body class="text-center">
+    <main class="form-login">
+      <img class="mb-4" th:src="@{/image/gongbu.jpg}" alt="gongbuロゴ" width="72" height="57">
+      <h1>헐!</h1>
+      <h4>お探しのページを見つかりませんでした🤔</h4>
+      <a class="link-secondary" th:href="@{/}">トップ画面へ</a>
+      <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
+    </main>      
+  </body>
 </html>
