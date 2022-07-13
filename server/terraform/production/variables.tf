@@ -55,11 +55,6 @@ variable server_tomcat_protocol_header {
   default  = ""
 }
 
-variable logging_config {
-  type = string
-  default  = ""
-}
-
 variable google_client_id {
   type = string
   default  = ""
@@ -156,7 +151,6 @@ locals {
     server_port = var.server_port
     server_tomcat_remote_ip_header = var.server_tomcat_remote_ip_header
     server_tomcat_protocol_header = var.server_tomcat_protocol_header
-    logging_config = var.logging_config
     google_client_id = var.google_client_id
     google_client_secret = var.google_client_secret
     google_scope = var.google_scope

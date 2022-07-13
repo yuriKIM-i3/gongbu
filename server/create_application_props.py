@@ -10,7 +10,6 @@ app_env = {
     'server.port' : 'SERVER_PORT',
     'server.tomcat.remoteip.remote-ip-header' : 'SERVER_TOMCAT_REMOTE_IP_HEADER',
     'server.tomcat.remoteip.protocol-header' : 'SERVER_TOMCAT_PROTOCOL_HEADER',
-    'logging.config' : 'LOGGING_CONFIG',
     'spring.security.oauth2.client.registration.google.client-id' : 'GOOGLE_CLIENT_ID',
     'spring.security.oauth2.client.registration.google.client-secret' : 'GOOGLE_CLIENT_SECRET',
     'spring.security.oauth2.client.registration.google.scope' : 'GOOGLE_SCOPE',
