@@ -181,10 +181,6 @@ resource "aws_codebuild_project" "main" {
       value = aws_ssm_parameter.global_values["server_tomcat_protocol_header"].value
     }
     environment_variable {
-      name = "LOGGING_CONFIG"
-      value = aws_ssm_parameter.global_values["logging_config"].value
-    }
-    environment_variable {
       name = "GOOGLE_CLIENT_ID"
       value = aws_ssm_parameter.global_values["google_client_id"].value
     }
