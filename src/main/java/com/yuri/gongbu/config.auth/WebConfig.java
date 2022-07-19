@@ -38,11 +38,6 @@ public class WebConfig implements WebMvcConfigurer {
  				.excludePathPatterns(GlobalVariable.PATH_FOR_STATIC_RESOURCE)
                 .excludePathPatterns("/error");
 
-        registry.addInterceptor(new UserCheckInterceptor()) 
- 				.order(3) 
- 				.addPathPatterns(GlobalVariable.PATH_FOR_MEMBER) 
-                .excludePathPatterns(GlobalVariable.PATH_FOR_ALL); 
-
         registry.addInterceptor(new LogInterceptor()) 
  				.order(2) 
  				.excludePathPatterns(GlobalVariable.PATH_FOR_STATIC_RESOURCE);
