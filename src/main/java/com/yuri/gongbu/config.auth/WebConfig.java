@@ -9,7 +9,6 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import java.util.List;
 
 import com.yuri.gongbu.interceptor.SettingUserInfoInterceptor;
-import com.yuri.gongbu.interceptor.UserCheckInterceptor;
 import com.yuri.gongbu.global.GlobalVariable;
 import com.yuri.gongbu.interceptor.LogInterceptor;
 
@@ -37,11 +36,6 @@ public class WebConfig implements WebMvcConfigurer {
  				.addPathPatterns("/**") 
  				.excludePathPatterns(GlobalVariable.PATH_FOR_STATIC_RESOURCE)
                 .excludePathPatterns("/error");
-
-        registry.addInterceptor(new UserCheckInterceptor()) 
- 				.order(3) 
- 				.addPathPatterns(GlobalVariable.PATH_FOR_MEMBER) 
-                .excludePathPatterns(GlobalVariable.PATH_FOR_ALL); 
 
         registry.addInterceptor(new LogInterceptor()) 
  				.order(2) 

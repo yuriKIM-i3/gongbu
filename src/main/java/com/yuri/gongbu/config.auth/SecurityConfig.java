@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                     .antMatchers(GlobalVariable.PATH_FOR_MEMBER).hasRole(Role.MEMBER.name())
                     .anyRequest().authenticated()
                 .and()
-		            .formLogin().loginPage("/loginPage")
+		            .formLogin().loginPage("/loginPage").permitAll()
                 .and()
                     .logout()
                         .logoutSuccessUrl("/")

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="~{layout/layout}">
 <head>
+  <script type="text/javascript" th:src="@{/js/tts.js}"></script>
 </head>
   <th:block layout:fragment="content">
     <div class="content rounded">
@@ -25,7 +26,10 @@
         </div>
         <div class="row mt-3 border-bottom">
           <div class="col">
-            <span class="fs-2" th:text="${word.wordName}"></span>&nbsp;<span class="fs-5" th:text="${word.wordPronunciation}"></span>
+            <span class="fs-2" th:text="${word.wordName}"></span>&nbsp;
+            <span class="fs-5" th:text="${word.wordPronunciation}"></span>&nbsp;
+            <input type="hidden" id="text" th:value="${word.wordName}"/>
+            <span class="badge bg-success" id="btn-read">発音を聞く</span>
           </div>
         </div>
         <div class="row mt-3">
