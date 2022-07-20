@@ -9,7 +9,6 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import java.util.List;
 
 import com.yuri.gongbu.interceptor.SettingUserInfoInterceptor;
-import com.yuri.gongbu.interceptor.UserCheckInterceptor;
 import com.yuri.gongbu.global.GlobalVariable;
 import com.yuri.gongbu.interceptor.LogInterceptor;
 
