@@ -24,7 +24,7 @@ public class GlobalVariable {
 
     public static String[] PATH_FOR_ALL = new String[]{"/", "/about", "/word/list/**", "/word/detail/**", "/word/random", "/loginPage", "/error", "/health", "/login/**"};
 
-    public static String[] PATH_FOR_STATIC_RESOURCE = new String[]{"/css/**", "/image/**", "/*.html"};
+    public static String[] PATH_FOR_STATIC_RESOURCE = new String[]{"/css/**", "/image/**", "/js/**", "/*.html"};
 
     public static final int WORD_NAME_MAX_LENGTH = 50;
 
