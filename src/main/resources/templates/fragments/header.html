@@ -3,7 +3,7 @@
     <div class="title">
       <div class="row justify-content-between">
         <div class="col">
-          <img th:src="@{/image/gongbu.jpg}">
+          <a th:href="@{/}"><img th:src="@{/image/gongbu.jpg}"></a>
         </div>
         <div th:if="${user eq null}" class="col-md-3 text-end align-self-center">
           <a class="btn btn-outline-success me-2" th:href="@{/loginPage}" role="button">ソーシャルログイン</a>
