@@ -34,13 +34,20 @@ https://gongbu.jp/
    - ステータス：完了
    - 実施期間：2022/01~2022/04中旬
    - 作業内容：サイトの根幹になる言葉のCRUD、ログイン機能を実装
+     + [関連するプルリクエスト](https://github.com/crane93/gongbu/pulls?q=is%3Apr+is%3Aclosed+label%3Aphase1)
 2. インフラ構築
    - ステータス：完了
    - 実施期間：2022/04中旬~2022/05中旬
    - 作業内容：github actionとaws codepipeline(code build, code deploy)でCI/CD環境を整える、aws ecsでアプリケーションが入っているDocker コンテナを実行する
+     + [関連するプルリクエスト](https://github.com/crane93/gongbu/pulls?q=is%3Apr+is%3Aclosed+label%3A%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9)
    - インフラ構成図
    ![infra image](https://user-images.githubusercontent.com/44425582/169836756-9aa6c01e-a1d6-4028-8282-55d62b8ecbb9.png)
 3. phase2 
-   - ステータス：着手中
-   - 実施期間：2022/05中旬~現在
+   - ステータス：完了
+   - 実施期間：2022/05中旬~2022/07/20
    - 作業内容：テストコード作成、不具合対応
+     + [関連するプルリクエスト](https://github.com/crane93/gongbu/pulls?q=is%3Apr+is%3Aclosed+label%3Aphase2+label%3Amerged%21)
+4. phase3
+   - ステータス：-
+   - 実施期間：2022/07/末~
+   - 作業内容：性能改善、ちょこちょこ機能追加
