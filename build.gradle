@@ -3,6 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 	id 'checkstyle'
+	id 'org.openrewrite.rewrite' version'5.25.0'
 }
 
 group = 'com.yuri'
@@ -40,4 +41,10 @@ test {
 
 checkstyle{
     toolVersion = '10.3.2'
+}
+
+rewrite{
+    activeRecipe("org.openrewrite.java.format.AutoFormat")
+    activeRecipe("org.openrewrite.java.cleanup.Cleanup")
+    activeRecipe("org.openrewrite.java.OrderImports")
 }
