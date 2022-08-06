@@ -1,10 +1,9 @@
 package com.yuri.gongbu.config.auth.dto;
 
+import com.yuri.gongbu.domain.user.User;
 import lombok.Getter;
 
 import java.io.Serializable;
-
-import com.yuri.gongbu.domain.user.User;
 
 @Getter
 public class SessionUser implements Serializable {

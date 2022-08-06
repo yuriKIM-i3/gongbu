@@ -1,22 +1,23 @@
 package com.yuri.gongbu.web.dto;
 
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.Validator;
-import org.springframework.validation.BindException;
-import org.springframework.validation.BindingResult;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterAll;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import java.io.StringWriter;
-
-import com.yuri.gongbu.web.dto.WordAddRequestDto;
-import com.yuri.gongbu.global.GlobalVariable;
 import com.yuri.gongbu.domain.user.UserRepository;
 import com.yuri.gongbu.domain.words.WordsRepository;
+import com.yuri.gongbu.global.GlobalVariable;
+import com.yuri.gongbu.web.dto.WordAddRequestDto;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
+
+import java.io.StringWriter;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest
 public class WordAddRequestDtoTest {
@@ -134,7 +135,7 @@ public class WordAddRequestDtoTest {
     @Test
     public void wordExampleUptoMaxLength() {
         // given
-        String wordExample=  createString(GlobalVariable.WORD_EXAMPLE_MAX_LENGTH);
+        String wordExample =  createString(GlobalVariable.WORD_EXAMPLE_MAX_LENGTH);
         wordAddRequestDto.setWordExample(wordExample);
         // when
         validator.validate(wordAddRequestDto, bindingResult);
@@ -160,6 +161,12 @@ public class WordAddRequestDtoTest {
     }
 
     private String createString(int length) {
-        return new StringWriter(){{ for(int i=0;i < length;i++) write("a"); }}.toString();
+        return new StringWriter(){
+            {
+                for (int i = 0; i < length; i++) {
+                    write("a");
+                }
+            }
+        }.toString();
     }
 }

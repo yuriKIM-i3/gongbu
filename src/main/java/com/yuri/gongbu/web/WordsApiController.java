@@ -1,42 +1,36 @@
 package com.yuri.gongbu.web;
 
+import com.yuri.gongbu.config.auth.LoginUser;
+import com.yuri.gongbu.config.auth.dto.SessionUser;
+import com.yuri.gongbu.domain.words.Words;
+import com.yuri.gongbu.domain.words.WordsRepository;
+import com.yuri.gongbu.global.GlobalVariable;
+import com.yuri.gongbu.service.WordLikeService;
+import com.yuri.gongbu.service.WordsService;
+import com.yuri.gongbu.util.WordsApiUtil;
+import com.yuri.gongbu.web.dto.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.ui.Model;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Cookie;
-
-import com.yuri.gongbu.service.WordsService;
-import com.yuri.gongbu.domain.words.WordsRepository;
-import com.yuri.gongbu.domain.words.Words;
-import com.yuri.gongbu.global.GlobalVariable;
-import com.yuri.gongbu.web.dto.WordsListRequestDto;
-import com.yuri.gongbu.web.dto.WordAddRequestDto;
-import com.yuri.gongbu.config.auth.dto.SessionUser;
-import com.yuri.gongbu.config.auth.LoginUser;
-import com.yuri.gongbu.web.dto.WordEditRequestDto;
-import com.yuri.gongbu.web.dto.WordResponseDto;
-import com.yuri.gongbu.service.WordLikeService;
-import com.yuri.gongbu.web.dto.WordLikeAddRequestDto;
-import com.yuri.gongbu.util.WordsApiUtil;
-
 @RequiredArgsConstructor
 @Controller
-public class WordsApiController{
+public class WordsApiController {
 
     private final WordsService wordsService;
     private final WordLikeService wordLikeService;
@@ -66,7 +60,7 @@ public class WordsApiController{
     }
 
     @GetMapping("/word/list/search")
-    public String searchWord(@RequestParam(defaultValue = "1") Integer page, WordsListRequestDto requestDto, Model model){
+    public String searchWord(@RequestParam(defaultValue = "1") Integer page, WordsListRequestDto requestDto, Model model) {
         PageRequest pageable = PageRequest.of(page - 1, GlobalVariable.WORD_PAGE_SIZE);
         model.addAttribute("result", wordsService.findByDeleteFlgAndWordNameLike(requestDto.getKeyword(), pageable));
         model.addAttribute("requestDto", requestDto);
@@ -76,7 +70,7 @@ public class WordsApiController{
 
     @GetMapping("/word/add")
     public String addWord(Model model, WordAddRequestDto wordAddRequestDto) {
-        
+
         model.addAttribute("wordAddRequestDto", wordAddRequestDto);
         return "word/add";
     }
@@ -94,7 +88,7 @@ public class WordsApiController{
 
     @GetMapping("/word/detail/{wordId}")
     public String readWord(@PathVariable Integer wordId, Model model, HttpServletRequest httpServletRequest, HttpServletResponse response) {
-        
+
         WordsApiUtil.countUpWordHit(wordId, httpServletRequest, response, wordsService);
         model.addAttribute("word", wordsService.findByWordId(wordId));
 
@@ -106,13 +100,13 @@ public class WordsApiController{
 
         WordResponseDto wordResponseDto = wordsService.findByWordId(wordId);
 
-        if(!WordsApiUtil.checkWordOwner(wordResponseDto, user)) {
+        if (!WordsApiUtil.checkWordOwner(wordResponseDto, user)) {
             model.addAttribute("errorMessege", GlobalVariable.INVALID_ACCESS);
             return "error";
         }
 
         model.addAttribute("wordEditRequestDto", wordsService.findByWordId(wordId));
-        
+
         return "word/edit";
     }
 
@@ -121,9 +115,9 @@ public class WordsApiController{
         if (bindingResult.hasErrors()) {
             return "word/edit";
         }
-        
+
         wordsService.edit(wordEditRequestDto);
-        
+
         return "redirect:/word/list";
     }
 
@@ -132,13 +126,13 @@ public class WordsApiController{
 
         WordResponseDto wordResponseDto = wordsService.findByWordId(wordId);
 
-        if(!WordsApiUtil.checkWordOwner(wordResponseDto, user)) {
+        if (!WordsApiUtil.checkWordOwner(wordResponseDto, user)) {
             model.addAttribute("errorMessege", GlobalVariable.INVALID_ACCESS);
             return "error";
         }
 
         wordsService.delete(wordId);
-        
+
         return "redirect:/word/list";
     }
 

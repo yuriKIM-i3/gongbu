@@ -1,5 +1,10 @@
 package com.yuri.gongbu.config.auth;
 
+import com.yuri.gongbu.config.auth.dto.OAuthAttributes;
+import com.yuri.gongbu.config.auth.dto.SessionUser;
+import com.yuri.gongbu.domain.user.User;
+import com.yuri.gongbu.domain.user.UserRepository;
+import com.yuri.gongbu.global.GlobalVariable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -12,12 +17,6 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
-
-import com.yuri.gongbu.domain.user.UserRepository;
-import com.yuri.gongbu.domain.user.User;
-import com.yuri.gongbu.config.auth.dto.SessionUser;
-import com.yuri.gongbu.global.GlobalVariable;
-import com.yuri.gongbu.config.auth.dto.OAuthAttributes;
 
 @RequiredArgsConstructor
 @Service
@@ -33,7 +32,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         //ログイン中のサービスを表すコード
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
-                                        .getUserInfoEndpoint().getUserNameAttributeName();
+                .getUserInfoEndpoint().getUserNameAttributeName();
 
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
         User user = saveOrUpdate(attributes);
@@ -44,9 +43,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     private User saveOrUpdate(OAuthAttributes attributes) {
         User user = userRepository.findByUserEmailAndDeleteFlg(attributes.getUserEmail(), GlobalVariable.FALSE)
-                    .map(entity -> entity.update(attributes.getUserName()))
-                    .orElse(attributes.toEntity());
-        
+                .map(entity -> entity.update(attributes.getUserName()))
+                .orElse(attributes.toEntity());
+
         return userRepository.save(user);
     }
 

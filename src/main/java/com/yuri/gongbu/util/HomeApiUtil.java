@@ -2,15 +2,11 @@ package com.yuri.gongbu.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Random;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.Collections;
-
-import com.yuri.gongbu.web.dto.WordHomeResponseDto;
 import com.yuri.gongbu.global.GlobalVariable;
+import com.yuri.gongbu.web.dto.WordHomeResponseDto;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class HomeApiUtil {
 
@@ -23,14 +19,14 @@ public class HomeApiUtil {
             postedWords.removeAll(postedWords);
         }
 
-        while (postedWords.size() > GlobalVariable.POSTED_WORDS_MAX_SIZE && postedWords.contains(randomWordId)){
+        while (postedWords.size() > GlobalVariable.POSTED_WORDS_MAX_SIZE && postedWords.contains(randomWordId)) {
             randomWordId = wordsId.get(random.nextInt(wordsId.size()));
         }
         postedWords.add(randomWordId);
 
         WordHomeResponseDto randomWord = null;
         for (WordHomeResponseDto dto : wordsList) {
-            if(dto.getWordId() == randomWordId){
+            if (dto.getWordId() == randomWordId) {
                 randomWord = dto;
             }
         }
@@ -38,14 +34,17 @@ public class HomeApiUtil {
         return getJson(randomWord);
     }
 
-    public static String getJson(WordHomeResponseDto dto){
+    public static String getJson(WordHomeResponseDto dto) {
         String retVal = null;
         ObjectMapper objectMapper = new ObjectMapper();
-        try{
+        try {
             retVal = objectMapper.writeValueAsString(dto);
         } catch (JsonProcessingException e) {
             System.err.println(e);
         }
         return retVal;
+    }
+
+    private HomeApiUtil() {
     }
 }

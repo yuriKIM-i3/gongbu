@@ -1,13 +1,12 @@
 package com.yuri.gongbu.config.auth.dto;
 
+import com.yuri.gongbu.domain.user.Role;
+import com.yuri.gongbu.domain.user.User;
+import com.yuri.gongbu.global.GlobalVariable;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Map;
-
-import com.yuri.gongbu.domain.user.User;
-import com.yuri.gongbu.domain.user.Role;
-import com.yuri.gongbu.global.GlobalVariable;
 
 @Getter
 public class OAuthAttributes {
@@ -28,7 +27,7 @@ public class OAuthAttributes {
         return "line".equals(registrationId)  ? ofLine("userId", attributes) : ofGoogle(userNameAttributeName, attributes);
     }
 
-    private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes){
+    private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
         return OAuthAttributes.builder()
                 .userName((String) attributes.get("name"))
                 .userEmail((String) attributes.get("email"))
@@ -37,10 +36,10 @@ public class OAuthAttributes {
                 .build();
     }
 
-    private static OAuthAttributes ofLine(String userNameAttributeName, Map<String, Object> attributes){
+    private static OAuthAttributes ofLine(String userNameAttributeName, Map<String, Object> attributes) {
         return OAuthAttributes.builder()
                 .userName((String) attributes.get("displayName"))
-                .userEmail((String) attributes.get("userId"))       //取得したユーザー情報の中でuserIdは変化しない情報なのでuserEmailに保存
+                .userEmail((String) attributes.get("userId"))//取得したユーザー情報の中でuserIdは変化しない情報なのでuserEmailに保存
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
@@ -48,10 +47,10 @@ public class OAuthAttributes {
 
     public User toEntity() {
         return User.builder()
-                    .userName(userName)
-                    .userEmail(userEmail)
-                    .userRole(Role.MEMBER)
-                    .deleteFlg(GlobalVariable.FALSE)
-                    .build();
+                .userName(userName)
+                .userEmail(userEmail)
+                .userRole(Role.MEMBER)
+                .deleteFlg(GlobalVariable.FALSE)
+                .build();
     }
 }

@@ -1,28 +1,26 @@
 package com.yuri.gongbu.web;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-
-import lombok.RequiredArgsConstructor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.util.Random;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import com.yuri.gongbu.service.WordsService;
-import com.yuri.gongbu.web.dto.WordHomeResponseDto;
 import com.yuri.gongbu.global.GlobalVariable;
+import com.yuri.gongbu.service.WordsService;
 import com.yuri.gongbu.util.HomeApiUtil;
+import com.yuri.gongbu.web.dto.WordHomeResponseDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Controller
-public class HomeApiController{
+public class HomeApiController {
 
     private final WordsService wordsService;
     List<Integer> postedWords = new ArrayList<Integer>();

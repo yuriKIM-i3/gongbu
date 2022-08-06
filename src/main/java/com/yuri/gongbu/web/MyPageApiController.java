@@ -1,25 +1,23 @@
 package com.yuri.gongbu.web;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import com.yuri.gongbu.config.auth.LoginUser;
+import com.yuri.gongbu.config.auth.dto.SessionUser;
+import com.yuri.gongbu.global.GlobalVariable;
+import com.yuri.gongbu.service.UserService;
+import com.yuri.gongbu.service.WordsService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.data.domain.PageRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import lombok.RequiredArgsConstructor;
-
-import com.yuri.gongbu.config.auth.dto.SessionUser;
-import com.yuri.gongbu.config.auth.LoginUser;
-import com.yuri.gongbu.service.WordsService;
-import com.yuri.gongbu.global.GlobalVariable;
-import com.yuri.gongbu.service.UserService;
-
 @RequiredArgsConstructor
 @Controller
-public class MyPageApiController{
+public class MyPageApiController {
 
     private final WordsService wordsService;
     private final UserService userService;

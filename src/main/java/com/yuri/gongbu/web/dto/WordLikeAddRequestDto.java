@@ -1,23 +1,22 @@
 package com.yuri.gongbu.web.dto;
 
+import com.yuri.gongbu.domain.wordLike.WordLike;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.AllArgsConstructor;
 
-import com.yuri.gongbu.domain.wordLike.WordLike;
-
-@AllArgsConstructor 
+@AllArgsConstructor
 @Getter
 @Setter
 public class WordLikeAddRequestDto {
 
     private Integer userId;
     private Integer wordId;
-    
+
     public WordLike toEntity() {
         return WordLike.builder()
-                    .userId(userId)
-                    .wordId(wordId)
-                    .build();
+                .userId(userId)
+                .wordId(wordId)
+                .build();
     }
 }

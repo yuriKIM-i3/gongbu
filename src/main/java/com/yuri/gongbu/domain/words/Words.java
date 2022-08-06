@@ -1,25 +1,18 @@
 package com.yuri.gongbu.domain.words;
 
+import com.yuri.gongbu.domain.BaseTimeEntity;
+import com.yuri.gongbu.domain.user.User;
+import com.yuri.gongbu.global.GlobalVariable;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
-
-import com.yuri.gongbu.domain.BaseTimeEntity;
-import com.yuri.gongbu.global.GlobalVariable;
-import com.yuri.gongbu.domain.user.User;
+import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
 @Entity
-public class Words extends BaseTimeEntity{
+public class Words extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,29 +26,29 @@ public class Words extends BaseTimeEntity{
 
     @Column(length = 100, nullable = false)
     private String wordPronunciation;
-    
+
     @Column(length = 255, nullable = false)
     private String wordMeaning;
 
     @Column(length = 500)
     private String wordExample;
 
-    @Column 
+    @Column
     private Integer wordHits;
 
-    @Column 
+    @Column
     private Integer wordLike;
 
-    @Column 
+    @Column
     private Integer deleteFlg;
 
     @ManyToOne
-    @JoinColumn(name="user_id", insertable=false, updatable=false)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User user;
 
     @Builder
-    public Words(Integer userId, String wordName, String wordPronunciation, String wordMeaning, String wordExample, 
-    Integer wordHits, Integer wordLike, Integer deleteFlg) {
+    public Words(Integer userId, String wordName, String wordPronunciation, String wordMeaning, String wordExample,
+                                  Integer wordHits, Integer wordLike, Integer deleteFlg) {
         this.userId = userId;
         this.wordName = wordName;
         this.wordPronunciation = wordPronunciation;

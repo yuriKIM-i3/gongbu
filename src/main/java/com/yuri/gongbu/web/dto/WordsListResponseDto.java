@@ -1,10 +1,9 @@
 package com.yuri.gongbu.web.dto;
 
+import com.yuri.gongbu.domain.words.Words;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-
-import com.yuri.gongbu.domain.words.Words;
 
 @Getter
 public class WordsListResponseDto {

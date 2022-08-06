@@ -1,23 +1,24 @@
 package com.yuri.gongbu.util;
 
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.AfterAll;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import java.util.List;
-
-import com.yuri.gongbu.domain.user.UserRepository;
-import com.yuri.gongbu.domain.user.User;
+import com.yuri.gongbu.config.auth.dto.SessionUser;
 import com.yuri.gongbu.domain.user.Role;
+import com.yuri.gongbu.domain.user.User;
+import com.yuri.gongbu.domain.user.UserRepository;
 import com.yuri.gongbu.domain.words.Words;
 import com.yuri.gongbu.domain.words.WordsRepository;
-import com.yuri.gongbu.web.dto.WordResponseDto;
 import com.yuri.gongbu.global.GlobalVariable;
 import com.yuri.gongbu.util.WordsApiUtil;
-import com.yuri.gongbu.config.auth.dto.SessionUser;
+import com.yuri.gongbu.web.dto.WordResponseDto;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class WordsApiUtilTest {
@@ -32,33 +33,33 @@ public class WordsApiUtilTest {
     void checkWordOwner() {
         // given
         userRepository.save(User.builder()
-            .userName("user1")
-            .userEmail("user1")
-            .userRole(Role.MEMBER)    
-            .deleteFlg(GlobalVariable.FALSE)
-            .build());
-        
+                .userName("user1")
+                .userEmail("user1")
+                .userRole(Role.MEMBER)
+                .deleteFlg(GlobalVariable.FALSE)
+                .build());
+
         userRepository.save(User.builder()
-            .userName("user2")
-            .userEmail("user2")
-            .userRole(Role.MEMBER)    
-            .deleteFlg(GlobalVariable.FALSE)
-            .build());
+                .userName("user2")
+                .userEmail("user2")
+                .userRole(Role.MEMBER)
+                .deleteFlg(GlobalVariable.FALSE)
+                .build());
 
         int userId = userRepository.findAll().get(0).getUserId();
         String wordName = "test-word";
         String wordPronunciation = "this is test word";
         String wordMeaning = "test-meaning";
         wordsRepository.save(Words.builder()
-                                    .userId(userId)
-                                    .wordName(wordName)
-                                    .wordPronunciation(wordPronunciation)    
-                                    .wordMeaning(wordMeaning)         
-                                    .wordExample("did you do your test?")
-                                    .wordHits(3)
-                                    .wordLike(3)
-                                    .deleteFlg(0)
-                                    .build());
+                .userId(userId)
+                .wordName(wordName)
+                .wordPronunciation(wordPronunciation)
+                .wordMeaning(wordMeaning)
+                .wordExample("did you do your test?")
+                .wordHits(3)
+                .wordLike(3)
+                .deleteFlg(0)
+                .build());
 
         List<Words> words = wordsRepository.findAll();
         Words word = words.get(0);

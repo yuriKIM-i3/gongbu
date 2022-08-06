@@ -1,12 +1,11 @@
 package com.yuri.gongbu.service;
 
+import com.yuri.gongbu.domain.wordLike.WordLikeRepository;
+import com.yuri.gongbu.web.dto.WordLikeAddRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
-
-import com.yuri.gongbu.domain.wordLike.WordLikeRepository;
-import com.yuri.gongbu.web.dto.WordLikeAddRequestDto;
 
 @RequiredArgsConstructor
 @Service

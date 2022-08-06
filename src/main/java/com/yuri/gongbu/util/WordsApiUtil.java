@@ -1,13 +1,13 @@
 package com.yuri.gongbu.util;
 
+import com.yuri.gongbu.config.auth.dto.SessionUser;
+import com.yuri.gongbu.global.GlobalVariable;
+import com.yuri.gongbu.service.WordsService;
+import com.yuri.gongbu.web.dto.WordResponseDto;
+
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Cookie;
-
-import com.yuri.gongbu.service.WordsService;
-import com.yuri.gongbu.global.GlobalVariable;
-import com.yuri.gongbu.config.auth.dto.SessionUser;
-import com.yuri.gongbu.web.dto.WordResponseDto;
 
 public class WordsApiUtil {
     public static void countUpWordHit(Integer wordId, HttpServletRequest request, HttpServletResponse response, WordsService wordsService) {
@@ -17,7 +17,7 @@ public class WordsApiUtil {
         Cookie oldCookie = null;
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("wordId")) {
+                if ("wordId".equals(cookie.getName())) {
                     oldCookie = cookie;
                 }
             }
@@ -44,5 +44,8 @@ public class WordsApiUtil {
 
     public static boolean checkWordOwner(WordResponseDto wordResponseDto, SessionUser user) {
         return wordResponseDto.getUserId().equals(user.getUserId());
-    } 
+    }
+
+    private WordsApiUtil() {
+    }
 }

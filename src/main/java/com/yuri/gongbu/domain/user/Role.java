@@ -1,9 +1,8 @@
 package com.yuri.gongbu.domain.user;
 
+import com.yuri.gongbu.global.GlobalVariable;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-
-import com.yuri.gongbu.global.GlobalVariable;
 
 @Getter
 @RequiredArgsConstructor

@@ -1,8 +1,7 @@
 package com.yuri.gongbu.web.dto;
 
-import lombok.Getter;
-
 import com.yuri.gongbu.domain.words.Words;
+import lombok.Getter;
 
 @Getter
 public class WordHomeResponseDto {

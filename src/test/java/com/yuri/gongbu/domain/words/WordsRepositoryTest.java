@@ -1,32 +1,33 @@
 package com.yuri.gongbu.domain.words;
 
+import com.yuri.gongbu.domain.user.Role;
+import com.yuri.gongbu.domain.user.User;
+import com.yuri.gongbu.domain.user.UserRepository;
+import com.yuri.gongbu.domain.words.Words;
+import com.yuri.gongbu.domain.words.WordsRepository;
+import com.yuri.gongbu.global.GlobalVariable;
+import com.yuri.gongbu.web.dto.WordsListResponseDto;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Page;
 
-import com.yuri.gongbu.domain.words.WordsRepository;
-import com.yuri.gongbu.domain.words.Words;
-import com.yuri.gongbu.domain.user.UserRepository;
-import com.yuri.gongbu.domain.user.User;
-import com.yuri.gongbu.domain.user.Role;
-import com.yuri.gongbu.global.GlobalVariable;
-import com.yuri.gongbu.web.dto.WordsListResponseDto;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class WordsRepositoryTest {
-    
+
     @Autowired
     private WordsRepository wordsRepository;
 
@@ -36,11 +37,11 @@ public class WordsRepositoryTest {
     @BeforeAll
     static void setup(@Autowired UserRepository userRepository) {
         userRepository.save(User.builder()
-            .userName("yuriSAMA")
-            .userEmail("y")
-            .userRole(Role.MEMBER)    
-            .deleteFlg(GlobalVariable.FALSE)
-            .build());
+                .userName("yuriSAMA")
+                .userEmail("y")
+                .userRole(Role.MEMBER)
+                .deleteFlg(GlobalVariable.FALSE)
+                .build());
     }
 
     @BeforeEach
@@ -51,15 +52,15 @@ public class WordsRepositoryTest {
         String wordMeaning = "test-meaning";
 
         wordsRepository.save(Words.builder()
-                                    .userId(userId)
-                                    .wordName(wordName)
-                                    .wordPronunciation(wordPronunciation)    
-                                    .wordMeaning(wordMeaning)         
-                                    .wordExample("did you do your test?")
-                                    .wordHits(3)
-                                    .wordLike(3)
-                                    .deleteFlg(0)
-                                    .build());
+                .userId(userId)
+                .wordName(wordName)
+                .wordPronunciation(wordPronunciation)
+                .wordMeaning(wordMeaning)
+                .wordExample("did you do your test?")
+                .wordHits(3)
+                .wordLike(3)
+                .deleteFlg(0)
+                .build());
     }
 
     @Test

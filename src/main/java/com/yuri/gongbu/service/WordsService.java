@@ -1,26 +1,20 @@
 package com.yuri.gongbu.service;
 
+import com.yuri.gongbu.domain.words.Words;
+import com.yuri.gongbu.domain.words.WordsRepository;
+import com.yuri.gongbu.global.GlobalVariable;
+import com.yuri.gongbu.web.dto.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Page;
 
+import java.lang.IllegalArgumentException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.HashMap;
-
-import java.lang.IllegalArgumentException;
-
-import com.yuri.gongbu.web.dto.WordsListResponseDto;
-import com.yuri.gongbu.web.dto.WordAddRequestDto;
-import com.yuri.gongbu.domain.words.WordsRepository;
-import com.yuri.gongbu.global.GlobalVariable;
-import com.yuri.gongbu.domain.words.Words;
-import com.yuri.gongbu.web.dto.WordResponseDto;
-import com.yuri.gongbu.web.dto.WordEditRequestDto;
-import com.yuri.gongbu.web.dto.WordHomeResponseDto;
 
 @RequiredArgsConstructor
 @Service
@@ -62,7 +56,7 @@ public class WordsService {
         Words word = wordsRepository.findByWordId(wordId).orElseThrow(() -> new IllegalArgumentException("該当することばがありません。"));
         word.delete();
     }
-    
+
     public WordResponseDto findByWordId(Integer wordId) {
         Words word = wordsRepository.findByWordIdAndDeleteFlg(wordId, GlobalVariable.FALSE).orElseThrow(() -> new IllegalArgumentException("該当することばがありません。"));
         return new WordResponseDto(word);

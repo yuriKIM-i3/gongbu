@@ -1,18 +1,23 @@
 package com.yuri.gongbu.global;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GlobalVariable {
     public static Integer FALSE = 0;
     public static Integer TRUE = 1;
 
     public static List<String> sorts =
-        new ArrayList<String>() {{ add("wordHits"); add("wordLike"); }};
+            new ArrayList<String>() {
+                {
+                    add("wordHits");
+                    add("wordLike");
+                }
+            };
 
     public static Integer WORD_PAGE_SIZE = 6;
 
-    public static String INVALID_ACCESS = "不正なアクセスです";   
+    public static String INVALID_ACCESS = "不正なアクセスです";
 
     public static Integer COOKIE_MAX_AGE = 60 * 60 * 24;
 
@@ -33,4 +38,7 @@ public class GlobalVariable {
     public static final int WORD_MEANING_MAX_LENGTH = 255;
 
     public static final int WORD_EXAMPLE_MAX_LENGTH = 500;
+
+    private GlobalVariable() {
+    }
 }
