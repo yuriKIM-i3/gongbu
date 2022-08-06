@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.6.7'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'checkstyle'
 }
 
 group = 'com.yuri'
@@ -35,4 +36,8 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+}
+
+checkstyle{
+    toolVersion = '10.3.2'
 }
