@@ -51,3 +51,7 @@ terraform.tfstate.backup
 */terraform.tfstate.d/*
 .terraform.tfstate.lock.info
 .terraform.d
+
+# デプロイ用のシェルスクリプトとその結果生成されるアーカイブファイル
+build.zip
+deploy_by_cp_s3.sh
