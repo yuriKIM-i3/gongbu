@@ -47,4 +47,7 @@ rewrite{
     activeRecipe("org.openrewrite.java.format.AutoFormat")
     activeRecipe("org.openrewrite.java.cleanup.Cleanup")
     activeRecipe("org.openrewrite.java.OrderImports")
+
+    exclusion(
+        "**/*.gradle")
 }
