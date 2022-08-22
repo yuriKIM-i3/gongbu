@@ -50,7 +50,7 @@ https://gongbu.jp/
 4. phase3
    - ステータス：着手中
    - 実施期間：2022/07/末~
-   - 作業内容：性能改善、ちょこちょこ機能追加
+   - 作業内容：ちょこちょこ機能追加
      + [関連するプルリクエスト](https://github.com/crane93/gongbu/pulls?q=is%3Apr+is%3Aclosed+label%3Aphase3)
 
 ## 反省点
