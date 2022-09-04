@@ -13,9 +13,19 @@ jobs:
       LINE_CLIENT_ID: ${{ secrets.LINE_CLIENT_ID }}
     steps:
     - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 16
 
-    - run: docker-compose -f docker-compose-gitaction.yml build
-    - run: docker-compose -f docker-compose-gitaction.yml up --abort-on-container-exit
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build -x test
+
+      - name: Test with Gradle
+        run: ./gradlew test
 
   s3_cp_for_aws_codepipeline:
     needs: test
