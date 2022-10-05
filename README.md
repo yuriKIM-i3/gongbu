@@ -35,6 +35,9 @@ https://gongbu.jp/
    - 実施期間：2022/01~2022/04中旬
    - 作業内容：サイトの根幹になる言葉のCRUD、ログイン機能を実装
      + [関連するプルリクエスト](https://github.com/crane93/gongbu/pulls?q=is%3Apr+is%3Aclosed+label%3Aphase1)
+   - アプリケーションのアーキテクチャ
+   ![image](https://user-images.githubusercontent.com/44425582/194066133-4075faa3-1f0b-45bc-9e5d-ea89665ea562.png)
+     
 2. インフラ構築
    - ステータス：完了
    - 実施期間：2022/04中旬~2022/05中旬
